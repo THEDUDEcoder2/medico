@@ -4,15 +4,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medico.consultaController">
 
     <children>
-        <Button fx:id="Bpacientes" layoutX="440.0" layoutY="328.0" mnemonicParsing="false" onAction="#segundaVentana" prefHeight="39.0" prefWidth="118.0" text="Ingresar Paciente" />
+        <Button fx:id="Bpacientes" layoutX="443.0" layoutY="335.0" mnemonicParsing="false" onAction="#segundaVentana" prefHeight="39.0" prefWidth="118.0" text="Ingresar Paciente" />
 
-        <MenuButton fx:id="MBespecialidad" layoutX="418.0" layoutY="164.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Seleccionar">
+        <MenuButton fx:id="MBespecialidad" layoutX="106.0" layoutY="310.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Seleccionar">
             <items>
                 <MenuItem mnemonicParsing="false" onAction="#elegirEspecialidad" text="Cardiología" />
                 <MenuItem mnemonicParsing="false" onAction="#elegirEspecialidad" text="Pediatría" />
@@ -20,10 +22,15 @@
             </items>
         </MenuButton>
 
-        <Label layoutX="309.0" layoutY="164.0" prefHeight="25.0" prefWidth="92.0" text="Especialidad:">
+        <Label layoutX="14.0" layoutY="310.0" prefHeight="25.0" prefWidth="92.0" text="Especialidad:">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
+      <ImageView fitHeight="269.0" fitWidth="545.0" layoutX="28.0" layoutY="14.0">
+         <image>
+            <Image url="@Bienvenido.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

@@ -27,4 +27,5 @@ public class Pacientes {
     public void setNumeroDeSeguro(String numeroDeSeguro) { this.numeroDeSeguro = numeroDeSeguro; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
     public void setTipoDeSangre(String tipoDeSangre) { this.tipoDeSangre = tipoDeSangre; }
+
 }
