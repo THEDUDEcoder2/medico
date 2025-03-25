@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medico.consultaController">
+
+    <children>
+        <Button fx:id="Bpacientes" layoutX="461.0" layoutY="393.0" mnemonicParsing="false" onAction="#segundaVentana" prefHeight="39.0" prefWidth="118.0" text="Ingresar Paciente" />
+
+        <MenuButton fx:id="MBespecialidad" layoutX="134.0" layoutY="348.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Seleccionar">
+            <items>
+                <MenuItem mnemonicParsing="false" onAction="#elegirEspecialidad" text="Cardiología" />
+                <MenuItem mnemonicParsing="false" onAction="#elegirEspecialidad" text="Pediatría" />
+                <MenuItem mnemonicParsing="false" onAction="#elegirEspecialidad" text="Neurología" />
+            </items>
+        </MenuButton>
+
+        <Label layoutX="29.0" layoutY="348.0" prefHeight="25.0" prefWidth="92.0" text="Especialidad:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+      <ImageView fitHeight="307.0" fitWidth="556.0" layoutX="27.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Bienvenido.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>
