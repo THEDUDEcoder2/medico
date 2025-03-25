@@ -16,11 +16,11 @@ public class consultaController {
     @FXML
     private MenuButton MBespecialidad;
 
-    private static String especialidadSeleccionada;  // Variable estática para guardar la especialidad
+    private static String especialidadSeleccionada;
 
     @FXML
     public void initialize() {
-        // Agregar eventos a los MenuItem
+
         for (MenuItem item : MBespecialidad.getItems()) {
             item.setOnAction(event -> {
                 especialidadSeleccionada = item.getText();
@@ -41,7 +41,7 @@ public class consultaController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("segunda ventana.fxml"));
         Parent root = loader.load();
 
-        // Pasar la especialidad seleccionada al segundo controlador
+
         segundaVentanaController controller = loader.getController();
         controller.setEspecialidad(especialidadSeleccionada);
 

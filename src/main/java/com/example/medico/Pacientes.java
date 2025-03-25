@@ -15,14 +15,13 @@ public class Pacientes {
         this.tipoDeSangre = tipoDeSangre;
     }
 
-    // Getters
     public String getNombre() { return nombre; }
     public String getDomicilio() { return domicilio; }
     public String getNumeroDeSeguro() { return numeroDeSeguro; }
     public String getTelefono() { return telefono; }
     public String getTipoDeSangre() { return tipoDeSangre; }
 
-    // Setters (necesarios para edición)
+
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setDomicilio(String domicilio) { this.domicilio = domicilio; }
     public void setNumeroDeSeguro(String numeroDeSeguro) { this.numeroDeSeguro = numeroDeSeguro; }
