@@ -2,6 +2,8 @@ package com.example.medico;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,59 +12,49 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class segundaVentanaController {
 
     @FXML private TextField txtnombre;
-
     @FXML private TextField txtfechaDeNacimiento;
-
     @FXML private TextField txtDomicilio;
-
     @FXML private TextField txtNumeroDeSeguro;
-
     @FXML private TextField txtNumeroDeTelefono;
-
     @FXML private TextField txtespecialidad;
-
     @FXML private TextField txtBuscarPaciente;
-
-
     @FXML private ComboBox<String> MBtipoDeSangre;
 
     @FXML private TableView<Pacientes> TablePacientes;
-
     @FXML private TableColumn<Pacientes, String> columnaNombre;
-
     @FXML private TableColumn<Pacientes, String> columnaDomicilio;
-
     @FXML private TableColumn<Pacientes, String> columnaNumeroDeSeguro;
-
     @FXML private TableColumn<Pacientes, String> columnaTipoDeSangre;
-
     @FXML private TableColumn<Pacientes, String> columnaTelefono;
-
 
     private ObservableList<Pacientes> listaPacientes = FXCollections.observableArrayList();
     private Pacientes pacienteSeleccionado;
 
     @FXML
     public void initialize() {
-
+        // Inicializar el ComboBox de tipo de sangre
         MBtipoDeSangre.getItems().addAll("O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-");
 
-
+        // Configurar las columnas de la tabla
         configurarColumnas();
 
-
+        // Asignar la lista de pacientes a la tabla
         TablePacientes.setItems(listaPacientes);
 
-
+        // Escuchar cambios en la selección de la tabla
         TablePacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     pacienteSeleccionado = newValue;
                 });
+
+        // Inicializar la función de búsqueda
+        buscarPaciente();
     }
 
     private void configurarColumnas() {
@@ -73,22 +65,48 @@ public class segundaVentanaController {
         columnaTipoDeSangre.setCellValueFactory(new PropertyValueFactory<>("tipoDeSangre"));
     }
 
+    // ✅ MÉTODO PARA BUSCAR PACIENTES
+    private void buscarPaciente() {
+        FilteredList<Pacientes> filtroPacientes = new FilteredList<>(listaPacientes, p -> true);
+        txtBuscarPaciente.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtroPacientes.setPredicate(paciente -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (paciente.getNombre().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (paciente.getDomicilio().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (paciente.getNumeroDeSeguro().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (paciente.getTipoDeSangre().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (paciente.getTelefono().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<Pacientes> datosOrdenados = new SortedList<>(filtroPacientes);
+        datosOrdenados.comparatorProperty().bind(TablePacientes.comparatorProperty());
+        TablePacientes.setItems(datosOrdenados);
+    }
 
     @FXML
     private void Bagregar(ActionEvent event) {
-        if(ERRORES()) {
+        if (ERRORES()) {
             if (pacienteSeleccionado != null) {
-
                 actualizarPaciente(pacienteSeleccionado);
                 pacienteSeleccionado = null;
             } else {
-
                 listaPacientes.add(crearPacienteDesdeFormulario());
             }
             limpiarCampos();
         }
     }
-
 
     @FXML
     private void Beditar(ActionEvent event) {
@@ -99,9 +117,8 @@ public class segundaVentanaController {
         }
     }
 
-
     @FXML
-    private void  Beliminar(ActionEvent event) {
+    private void Beliminar(ActionEvent event) {
         if (pacienteSeleccionado != null) {
             listaPacientes.remove(pacienteSeleccionado);
             limpiarCampos();
@@ -118,7 +135,6 @@ public class segundaVentanaController {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
 
     private Pacientes crearPacienteDesdeFormulario() {
         return new Pacientes(
@@ -148,15 +164,15 @@ public class segundaVentanaController {
     }
 
     private boolean ERRORES() {
-        if(txtnombre.getText().isEmpty()) {
+        if (txtnombre.getText().isEmpty()) {
             mostrarAlerta("Error", "El nombre es obligatorio");
             return false;
         }
-        if(txtNumeroDeTelefono.getText().isEmpty()) {
+        if (txtNumeroDeTelefono.getText().isEmpty()) {
             mostrarAlerta("Error", "El teléfono es obligatorio");
             return false;
         }
-        if(MBtipoDeSangre.getValue() == null) {
+        if (MBtipoDeSangre.getValue() == null) {
             mostrarAlerta("Error", "Seleccione un tipo de sangre");
             return false;
         }
