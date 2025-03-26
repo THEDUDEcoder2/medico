@@ -53,7 +53,7 @@ public class segundaVentanaController {
                     pacienteSeleccionado = newValue;
                 });
 
-        // Inicializar la función de búsqueda
+        // Inicializar la función de búsqueda actualizada
         buscarPaciente();
     }
 
@@ -65,31 +65,30 @@ public class segundaVentanaController {
         columnaTipoDeSangre.setCellValueFactory(new PropertyValueFactory<>("tipoDeSangre"));
     }
 
-    // ✅ MÉTODO PARA BUSCAR PACIENTES
+    // ✅ MÉTODO PARA BUSCAR PACIENTES (solo por nombre y número de seguro)
     private void buscarPaciente() {
         FilteredList<Pacientes> filtroPacientes = new FilteredList<>(listaPacientes, p -> true);
+
         txtBuscarPaciente.textProperty().addListener((observable, oldValue, newValue) -> {
             filtroPacientes.setPredicate(paciente -> {
                 if (newValue == null || newValue.isEmpty()) {
-                    return true;
+                    return true; // Mostrar todos si el campo está vacío
                 }
+
                 String lowerCaseFilter = newValue.toLowerCase();
 
+                // Filtrar solo por nombre o número de seguro
                 if (paciente.getNombre().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (paciente.getDomicilio().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (paciente.getNumeroDeSeguro().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (paciente.getTipoDeSangre().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (paciente.getTelefono().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
                 }
+
                 return false;
             });
         });
 
+        // Ordenar los resultados filtrados
         SortedList<Pacientes> datosOrdenados = new SortedList<>(filtroPacientes);
         datosOrdenados.comparatorProperty().bind(TablePacientes.comparatorProperty());
         TablePacientes.setItems(datosOrdenados);
@@ -199,4 +198,5 @@ public class segundaVentanaController {
     public void setEspecialidad(String especialidad) {
         txtespecialidad.setText(especialidad);
     }
+
 }
