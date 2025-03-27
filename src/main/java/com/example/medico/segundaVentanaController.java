@@ -38,22 +38,22 @@ public class segundaVentanaController {
 
     @FXML
     public void initialize() {
-        // Inicializar el ComboBox de tipo de sangre
+
         MBtipoDeSangre.getItems().addAll("O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-");
 
-        // Configurar las columnas de la tabla
+
         configurarColumnas();
 
-        // Asignar la lista de pacientes a la tabla
+
         TablePacientes.setItems(listaPacientes);
 
-        // Escuchar cambios en la selección de la tabla
+
         TablePacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     pacienteSeleccionado = newValue;
                 });
 
-        // Inicializar la función de búsqueda actualizada
+
         buscarPaciente();
     }
 
@@ -65,19 +65,17 @@ public class segundaVentanaController {
         columnaTipoDeSangre.setCellValueFactory(new PropertyValueFactory<>("tipoDeSangre"));
     }
 
-    // ✅ MÉTODO PARA BUSCAR PACIENTES (solo por nombre y número de seguro)
     private void buscarPaciente() {
         FilteredList<Pacientes> filtroPacientes = new FilteredList<>(listaPacientes, p -> true);
 
         txtBuscarPaciente.textProperty().addListener((observable, oldValue, newValue) -> {
             filtroPacientes.setPredicate(paciente -> {
                 if (newValue == null || newValue.isEmpty()) {
-                    return true; // Mostrar todos si el campo está vacío
+                    return true;
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                // Filtrar solo por nombre o número de seguro
                 if (paciente.getNombre().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (paciente.getNumeroDeSeguro().toLowerCase().contains(lowerCaseFilter)) {
@@ -88,7 +86,6 @@ public class segundaVentanaController {
             });
         });
 
-        // Ordenar los resultados filtrados
         SortedList<Pacientes> datosOrdenados = new SortedList<>(filtroPacientes);
         datosOrdenados.comparatorProperty().bind(TablePacientes.comparatorProperty());
         TablePacientes.setItems(datosOrdenados);
@@ -96,7 +93,7 @@ public class segundaVentanaController {
 
     @FXML
     private void Bagregar(ActionEvent event) {
-        if (ERRORES()) {
+        if (validarCampos()) {
             if (pacienteSeleccionado != null) {
                 actualizarPaciente(pacienteSeleccionado);
                 pacienteSeleccionado = null;
@@ -127,17 +124,37 @@ public class segundaVentanaController {
     }
 
     @FXML
-    private void IrpaginaSiguiente(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("tercera ventana.fxml"));
-        Parent root = loader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void IrpaginaSiguiente(ActionEvent event) {
+        try {
+            if (pacienteSeleccionado == null) {
+                mostrarAlerta("Error", "Seleccione un paciente para continuar");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("tercera ventana.fxml"));
+            Parent root = loader.load();
+
+            terceraVentanaController terceraController = loader.getController();
+
+            terceraController.setPaciente(
+                    pacienteSeleccionado.getNombre(),
+                    pacienteSeleccionado.getFechaDeNacimiento()
+            );
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo abrir la ventana: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private Pacientes crearPacienteDesdeFormulario() {
         return new Pacientes(
                 txtnombre.getText(),
+                txtfechaDeNacimiento.getText(),
                 txtDomicilio.getText(),
                 txtNumeroDeSeguro.getText(),
                 txtNumeroDeTelefono.getText(),
@@ -147,6 +164,7 @@ public class segundaVentanaController {
 
     private void actualizarPaciente(Pacientes paciente) {
         paciente.setNombre(txtnombre.getText());
+        paciente.setFechaDeNacimiento(txtfechaDeNacimiento.getText());
         paciente.setDomicilio(txtDomicilio.getText());
         paciente.setNumeroDeSeguro(txtNumeroDeSeguro.getText());
         paciente.setTelefono(txtNumeroDeTelefono.getText());
@@ -156,15 +174,20 @@ public class segundaVentanaController {
 
     private void cargarDatosEnFormulario(Pacientes paciente) {
         txtnombre.setText(paciente.getNombre());
+        txtfechaDeNacimiento.setText(paciente.getFechaDeNacimiento());
         txtDomicilio.setText(paciente.getDomicilio());
         txtNumeroDeSeguro.setText(paciente.getNumeroDeSeguro());
         txtNumeroDeTelefono.setText(paciente.getTelefono());
         MBtipoDeSangre.setValue(paciente.getTipoDeSangre());
     }
 
-    private boolean ERRORES() {
+    private boolean validarCampos() {
         if (txtnombre.getText().isEmpty()) {
             mostrarAlerta("Error", "El nombre es obligatorio");
+            return false;
+        }
+        if (!txtfechaDeNacimiento.getText().matches("\\d{2}/\\d{2}/\\d{4}")) {
+            mostrarAlerta("Error", "Formato de fecha incorrecto. Use DD/MM/AAAA");
             return false;
         }
         if (txtNumeroDeTelefono.getText().isEmpty()) {
@@ -180,10 +203,10 @@ public class segundaVentanaController {
 
     private void limpiarCampos() {
         txtnombre.clear();
+        txtfechaDeNacimiento.clear();
         txtDomicilio.clear();
         txtNumeroDeSeguro.clear();
         txtNumeroDeTelefono.clear();
-        txtfechaDeNacimiento.clear();
         MBtipoDeSangre.getSelectionModel().clearSelection();
     }
 
@@ -198,5 +221,4 @@ public class segundaVentanaController {
     public void setEspecialidad(String especialidad) {
         txtespecialidad.setText(especialidad);
     }
-
 }
