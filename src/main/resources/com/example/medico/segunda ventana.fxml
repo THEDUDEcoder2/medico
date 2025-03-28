@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -13,6 +15,11 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="747.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medico.segundaVentanaController">
 
    <children>
+      <ImageView fitHeight="561.0" fitWidth="773.0" layoutX="-24.0" layoutY="-7.0" style="-fx-background-image: url('/com/example/medico/tu-imagen.png'); -fx-background-size: cover; -fx-background-position: center;">
+         <image>
+            <Image url="@fondo.jpg" />
+         </image>
+      </ImageView>
       <Label layoutX="66.0" layoutY="49.0" text="Nombre:">
          <font><Font size="14.0" /></font>
       </Label>
