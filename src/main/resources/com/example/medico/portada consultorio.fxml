@@ -11,10 +11,6 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="414.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medico.consultaController">
 
     <children>
-        <Button fx:id="Bpacientes" layoutX="437.0" layoutY="355.0" mnemonicParsing="false" onAction="#segundaVentana" prefHeight="39.0" prefWidth="149.0" text="Ingresar Paciente" textFill="#044e9e">
-         <font>
-            <Font name="Arial Black" size="13.0" />
-         </font></Button>
 
         <Label layoutX="31.0" layoutY="310.0" prefHeight="25.0" prefWidth="92.0" text="Contraseña:">
             <font>
@@ -26,12 +22,12 @@
             <Image url="@Bienvenido.png" />
          </image>
       </ImageView>
-      <Button fx:id="BCrearPerfil" layoutX="213.0" layoutY="355.0" mnemonicParsing="false" onAction="#Doctor" prefHeight="39.0" prefWidth="118.0" text="Crear Perfil" textFill="#cd0909">
+      <Button fx:id="BCrearPerfil" layoutX="450.0" layoutY="355.0" mnemonicParsing="false" onAction="#Doctor" prefHeight="39.0" prefWidth="118.0" text="Crear Perfil" textFill="#cd0909">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Button fx:id="BIniciarSesion" layoutX="64.0" layoutY="355.0" mnemonicParsing="false" onAction="#IniciarSesion" prefHeight="39.0" prefWidth="135.0" text="Iniciar seción" textFill="#01942a">
+      <Button fx:id="BIniciarSesion" layoutX="300.0" layoutY="355.0" mnemonicParsing="false" onAction="#IniciarSesion" prefHeight="39.0" prefWidth="135.0" text="Iniciar seción" textFill="#01942a">
          <font>
             <Font name="Arial Black" size="13.0" />
          </font>
