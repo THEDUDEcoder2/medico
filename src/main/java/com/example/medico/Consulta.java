@@ -4,33 +4,27 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Consulta {
-
     private String paciente;
     private LocalDate fecha;
     private LocalTime hora;
     private String especialista;
     private String motivo;
     private String diagnostico;
-
-
     private String fechaNacimiento;
-    private int pulsaciones;
-    private double temperatura;
+    private String pulsaciones;  // Cambiado a String
+    private String temperatura;  // Cambiado a String
     private String alergias;
-    private double peso;
-    private double altura;
+    private String peso;         // Cambiado a String
+    private String altura;       // Cambiado a String
     private String presionArterial;
-
-
     private String receta;
     private String sintomas;
     private String observaciones;
 
-
     public Consulta(String paciente, LocalDate fecha, LocalTime hora,
                     String especialista, String motivo, String diagnostico,
-                    String fechaNacimiento, int pulsaciones, double temperatura,
-                    String alergias, double peso, double altura, String presionArterial,
+                    String fechaNacimiento, String pulsaciones, String temperatura,
+                    String alergias, String peso, String altura, String presionArterial,
                     String receta, String sintomas, String observaciones) {
 
         this.paciente = paciente;
@@ -51,7 +45,7 @@ public class Consulta {
         this.observaciones = observaciones;
     }
 
-
+    // Getters
     public String getPaciente() { return paciente; }
     public LocalDate getFecha() { return fecha; }
     public LocalTime getHora() { return hora; }
@@ -59,17 +53,17 @@ public class Consulta {
     public String getMotivo() { return motivo; }
     public String getDiagnostico() { return diagnostico; }
     public String getFechaNacimiento() { return fechaNacimiento; }
-    public int getPulsaciones() { return pulsaciones; }
-    public double getTemperatura() { return temperatura; }
+    public String getPulsaciones() { return pulsaciones; }
+    public String getTemperatura() { return temperatura; }
     public String getAlergias() { return alergias; }
-    public double getPeso() { return peso; }
-    public double getAltura() { return altura; }
+    public String getPeso() { return peso; }
+    public String getAltura() { return altura; }
     public String getPresionArterial() { return presionArterial; }
     public String getReceta() { return receta; }
     public String getSintomas() { return sintomas; }
     public String getObservaciones() { return observaciones; }
 
-
+    // Setters
     public void setPaciente(String paciente) { this.paciente = paciente; }
     public void setFecha(LocalDate fecha) { this.fecha = fecha; }
     public void setHora(LocalTime hora) { this.hora = hora; }
@@ -77,11 +71,11 @@ public class Consulta {
     public void setMotivo(String motivo) { this.motivo = motivo; }
     public void setDiagnostico(String diagnostico) { this.diagnostico = diagnostico; }
     public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
-    public void setPulsaciones(int pulsaciones) { this.pulsaciones = pulsaciones; }
-    public void setTemperatura(double temperatura) { this.temperatura = temperatura; }
+    public void setPulsaciones(String pulsaciones) { this.pulsaciones = pulsaciones; }
+    public void setTemperatura(String temperatura) { this.temperatura = temperatura; }
     public void setAlergias(String alergias) { this.alergias = alergias; }
-    public void setPeso(double peso) { this.peso = peso; }
-    public void setAltura(double altura) { this.altura = altura; }
+    public void setPeso(String peso) { this.peso = peso; }
+    public void setAltura(String altura) { this.altura = altura; }
     public void setPresionArterial(String presionArterial) { this.presionArterial = presionArterial; }
     public void setReceta(String receta) { this.receta = receta; }
     public void setSintomas(String sintomas) { this.sintomas = sintomas; }

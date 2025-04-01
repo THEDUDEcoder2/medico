@@ -66,6 +66,13 @@ public class terceraVentanaController {
         colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
 
         tablaConsultas.setItems(historialConsultas);
+        tablaConsultas.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
+                    consultaSeleccionada = newSelection;
+                    if (newSelection != null) {
+                        cargarDatosConsulta(newSelection);
+                    }
+                });
     }
 
     public void setPaciente(String nombre, String fechaNacimiento, String especialidad, String nombreDoctor) {
@@ -87,8 +94,11 @@ public class terceraVentanaController {
         try {
             if (validarCampos()) {
                 Consulta consulta = crearConsultaDesdeFormulario();
-                historialConsultas.add(consulta); // Agregar consulta a la lista
-                tablaConsultas.refresh(); // Refrescar la tabla para mostrar la nueva consulta
+                if (consultaSeleccionada != null) {
+                    historialConsultas.set(historialConsultas.indexOf(consultaSeleccionada), consulta);
+                } else {
+                    historialConsultas.add(consulta);
+                }
                 mostrarAlerta("Éxito", "Consulta guardada correctamente");
                 nuevaConsulta(null);
             }
@@ -99,7 +109,7 @@ public class terceraVentanaController {
         }
     }
 
-    private Consulta crearConsultaDesdeFormulario() throws NumberFormatException {
+    private Consulta crearConsultaDesdeFormulario() {
         return new Consulta(
                 txtPaciente.getText(),
                 LocalDate.parse(txtFecha.getText(), fechaFormatter),
@@ -108,11 +118,11 @@ public class terceraVentanaController {
                 txtRazonConsulta.getText(),
                 txtDiagnostico.getText(),
                 txtFechaNacimiento.getText(),
-                Integer.parseInt(txtPulsaciones.getText()),
-                Double.parseDouble(txtTemperatura.getText()),
+                txtPulsaciones.getText(),  // Ahora acepta cualquier texto
+                txtTemperatura.getText(),
                 txtAlergias.getText(),
-                Double.parseDouble(txtPeso.getText()),
-                Double.parseDouble(txtAltura.getText()),
+                txtPeso.getText(),
+                txtAltura.getText(),
                 txtPresionArterial.getText(),
                 txtReceta.getText(),
                 txtSintomas.getText(),
@@ -121,9 +131,19 @@ public class terceraVentanaController {
     }
 
     @FXML
+    private void editarConsulta(ActionEvent event) {
+        if (consultaSeleccionada != null) {
+            habilitarCampos(true);
+        } else {
+            mostrarAlerta("Error", "Seleccione una consulta para editar");
+        }
+    }
+
+    @FXML
     private void nuevaConsulta(ActionEvent event) {
         consultaSeleccionada = null;
         limpiarFormulario();
+        habilitarCampos(true);
         txtFecha.setText(LocalDate.now().format(fechaFormatter));
         txtHora.setText(LocalTime.now().format(horaFormatter));
     }
@@ -132,6 +152,24 @@ public class terceraVentanaController {
     private void regresar(ActionEvent event) {
         Stage stage = (Stage) btnRegresar.getScene().getWindow();
         stage.close();
+    }
+
+    private void cargarDatosConsulta(Consulta consulta) {
+        txtFecha.setText(consulta.getFecha().format(fechaFormatter));
+        txtHora.setText(consulta.getHora().format(horaFormatter));
+        txtEspecialista.setText(consulta.getEspecialista());
+        txtRazonConsulta.setText(consulta.getMotivo());
+        txtDiagnostico.setText(consulta.getDiagnostico());
+        txtPulsaciones.setText(consulta.getPulsaciones());
+        txtTemperatura.setText(consulta.getTemperatura());
+        txtAlergias.setText(consulta.getAlergias());
+        txtPeso.setText(consulta.getPeso());
+        txtAltura.setText(consulta.getAltura());
+        txtPresionArterial.setText(consulta.getPresionArterial());
+        txtReceta.setText(consulta.getReceta());
+        txtSintomas.setText(consulta.getSintomas());
+        txtObservaciones.setText(consulta.getObservaciones());
+        habilitarCampos(false);
     }
 
     private boolean validarCampos() {
@@ -165,6 +203,20 @@ public class terceraVentanaController {
         txtSintomas.clear();
         txtObservaciones.clear();
         txtReceta.clear();
+    }
+
+    private void habilitarCampos(boolean habilitar) {
+        txtRazonConsulta.setEditable(habilitar);
+        txtDiagnostico.setEditable(habilitar);
+        txtPeso.setEditable(habilitar);
+        txtAltura.setEditable(habilitar);
+        txtTemperatura.setEditable(habilitar);
+        txtPresionArterial.setEditable(habilitar);
+        txtPulsaciones.setEditable(habilitar);
+        txtAlergias.setEditable(habilitar);
+        txtSintomas.setEditable(habilitar);
+        txtObservaciones.setEditable(habilitar);
+        txtReceta.setEditable(habilitar);
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
