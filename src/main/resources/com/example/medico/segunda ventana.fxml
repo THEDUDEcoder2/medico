@@ -15,9 +15,9 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="747.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medico.segundaVentanaController">
 
    <children>
-      <ImageView fitHeight="561.0" fitWidth="773.0" layoutX="-24.0" layoutY="-7.0" style="-fx-background-image: url('/com/example/medico/tu-imagen.png'); -fx-background-size: cover; -fx-background-position: center;">
+      <ImageView fitHeight="563.0" fitWidth="1020.0" layoutX="-241.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@fondo.jpg" />
+            <Image url="@Bienvenido%20(1).jpg" />
          </image>
       </ImageView>
       <Label layoutX="66.0" layoutY="49.0" text="Nombre:">
@@ -54,7 +54,7 @@
       </Label>
       <TextField fx:id="txtespecialidad" editable="false" layoutX="139.0" layoutY="477.0" />
 
-      <TableView fx:id="TablePacientes" layoutX="76.0" layoutY="276.0" prefHeight="194.0" prefWidth="471.0">
+      <TableView fx:id="TablePacientes" layoutX="75.0" layoutY="283.0" prefHeight="194.0" prefWidth="471.0">
          <columns>
             <TableColumn fx:id="columnaNombre" prefWidth="85.0" text="Nombre" />
             <TableColumn fx:id="columnaDomicilio" prefWidth="98.0" text="Domicilio" />
