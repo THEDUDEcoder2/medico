@@ -17,25 +17,25 @@
       <Label layoutX="314.0" layoutY="183.0" text="Peso:" />
       <TextField fx:id="txtPaciente" layoutX="140.0" layoutY="107.0" prefHeight="26.0" prefWidth="150.0" />
       <TextField fx:id="txtFechaNacimiento" layoutX="140.0" layoutY="142.0" prefHeight="26.0" prefWidth="150.0" promptText="DD/MM/AAAA" />
-      <TextField fx:id="txtPeso" layoutX="367.0" layoutY="178.0" prefHeight="26.0" prefWidth="80.0" editable="false" />
+      <TextField fx:id="txtPeso" editable="false" layoutX="367.0" layoutY="178.0" prefHeight="26.0" prefWidth="80.0" />
       <Label layoutX="473.0" layoutY="184.0" text="Altura:" />
-      <TextField fx:id="txtAltura" layoutX="544.0" layoutY="179.0" prefHeight="25.0" prefWidth="66.0" editable="false" />
+      <TextField fx:id="txtAltura" editable="false" layoutX="544.0" layoutY="179.0" prefHeight="25.0" prefWidth="66.0" />
       <Label layoutX="467.0" layoutY="148.0" text="Temperatura:" />
       <Label layoutX="401.0" layoutY="242.0" text="Presion arterial:" />
       <Label layoutX="296.0" layoutY="147.0" text="Pulsaciones:" />
-      <TextField fx:id="txtTemperatura" layoutX="548.0" layoutY="142.0" prefHeight="26.0" prefWidth="64.0" editable="false" />
-      <TextField fx:id="txtPresionArterial" layoutX="502.0" layoutY="238.0" prefHeight="26.0" prefWidth="70.0" editable="false" />
-      <TextField fx:id="txtPulsaciones" layoutX="370.0" layoutY="143.0" prefHeight="26.0" prefWidth="82.0" editable="false" />
+      <TextField fx:id="txtTemperatura" editable="false" layoutX="548.0" layoutY="142.0" prefHeight="26.0" prefWidth="64.0" />
+      <TextField fx:id="txtPresionArterial" editable="false" layoutX="502.0" layoutY="238.0" prefHeight="26.0" prefWidth="70.0" />
+      <TextField fx:id="txtPulsaciones" editable="false" layoutX="370.0" layoutY="143.0" prefHeight="26.0" prefWidth="82.0" />
       <Label layoutX="46.0" layoutY="182.0" text="Alergias:" />
-      <TextField fx:id="txtAlergias" layoutX="140.0" layoutY="176.0" prefHeight="32.0" prefWidth="150.0" editable="false" />
+      <TextField fx:id="txtAlergias" editable="false" layoutX="140.0" layoutY="176.0" prefHeight="32.0" prefWidth="150.0" />
       <Label layoutX="30.0" layoutY="242.0" text="Razon de consulta:" />
       <Label layoutX="54.0" layoutY="324.0" text="Sintomas:" />
       <Label layoutX="43.0" layoutY="399.0" text="Observaciones:" />
-      <TextArea fx:id="txtRazonConsulta" layoutX="140.0" layoutY="230.0" prefHeight="77.0" prefWidth="242.0" editable="false" />
-      <TextArea fx:id="txtSintomas" layoutX="137.0" layoutY="313.0" prefHeight="56.0" prefWidth="249.0" editable="false" />
-      <TextArea fx:id="txtObservaciones" layoutX="137.0" layoutY="380.0" prefHeight="56.0" prefWidth="249.0" editable="false" />
+      <TextArea fx:id="txtRazonConsulta" editable="false" layoutX="140.0" layoutY="230.0" prefHeight="77.0" prefWidth="242.0" />
+      <TextArea fx:id="txtSintomas" editable="false" layoutX="137.0" layoutY="313.0" prefHeight="56.0" prefWidth="249.0" />
+      <TextArea fx:id="txtObservaciones" editable="false" layoutX="137.0" layoutY="380.0" prefHeight="56.0" prefWidth="249.0" />
       <Label layoutX="47.0" layoutY="468.0" text="Diagnostico:" />
-      <TextArea fx:id="txtDiagnostico" layoutX="133.0" layoutY="455.0" prefHeight="44.0" prefWidth="257.0" editable="false" />
+      <TextArea fx:id="txtDiagnostico" editable="false" layoutX="133.0" layoutY="455.0" prefHeight="44.0" prefWidth="257.0" />
       <TableView fx:id="tablaConsultas" layoutX="659.0" layoutY="59.0" prefHeight="447.0" prefWidth="538.0">
          <columns>
             <TableColumn fx:id="colFecha" prefWidth="75.0" text="Fecha" />
@@ -49,7 +49,7 @@
       <TextField fx:id="txtFecha" layoutX="371.0" layoutY="108.0" prefHeight="26.0" prefWidth="80.0" promptText="DD/MM/AAAA" />
       <Label layoutX="476.0" layoutY="111.0" text="Hora:" />
       <TextField fx:id="txtHora" layoutX="547.0" layoutY="108.0" prefHeight="26.0" prefWidth="66.0" promptText="HH:MM" />
-      <TextArea fx:id="txtReceta" layoutX="407.0" layoutY="322.0" prefHeight="95.0" prefWidth="219.0" editable="false" />
+      <TextArea fx:id="txtReceta" editable="false" layoutX="407.0" layoutY="322.0" prefHeight="95.0" prefWidth="219.0" />
       <Label layoutX="451.0" layoutY="282.0" text="Receta:" />
       <Label layoutX="840.0" layoutY="12.0" text="Consultas" textFill="#5c57eb">
          <font>
@@ -77,18 +77,12 @@
          </font>
       </Button>
       <Label layoutX="24.0" layoutY="146.0" text="Fecha de nacimiento:" />
-      <Label layoutX="57.0" layoutY="15.0" text="Doctor:">
+      <Label layoutX="70.0" layoutY="20.0" text="Nombre y Especialidad del doctor">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="311.0" layoutY="15.0" text="Especializado en:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtDoctor" layoutX="111.0" layoutY="12.0" prefHeight="26.0" prefWidth="150.0" />
-      <TextField fx:id="txtEspecialista" layoutX="427.0" layoutY="12.0" prefHeight="26.0" prefWidth="150.0" />
+      <TextField fx:id="txtEspecialista" layoutX="310.0" layoutY="17.0" prefHeight="26.0" prefWidth="258.0" />
       <CubicCurve controlX1="-69.0" controlX2="68.0" controlY1="-50.0" controlY2="47.0" endX="150.0" fill="#ff1f1f" layoutX="165.0" layoutY="61.0" startX="-129.0" stroke="BLACK" />
       <CubicCurve controlX1="-69.0" controlX2="68.0" controlY1="-50.0" controlY2="47.0" endX="150.0" fill="#ff1f1f" layoutX="466.0" layoutY="62.0" startX="-150.0" stroke="BLACK" />
       <CubicCurve controlX1="-2.0" controlX2="-118.0" controlY1="21.0" controlY2="-31.20465087890625" endX="-50.0" endY="-43.0" fill="#ff1f1f" layoutX="669.0" layoutY="41.0" startX="-61.0" startY="21.0" stroke="BLACK" />

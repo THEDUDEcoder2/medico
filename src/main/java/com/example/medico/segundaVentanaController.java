@@ -38,22 +38,13 @@ public class segundaVentanaController {
 
     @FXML
     public void initialize() {
-
         MBtipoDeSangre.getItems().addAll("O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-");
-
-
         configurarColumnas();
-
-
         TablePacientes.setItems(listaPacientes);
-
-
         TablePacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     pacienteSeleccionado = newValue;
                 });
-
-
         buscarPaciente();
     }
 
@@ -138,7 +129,9 @@ public class segundaVentanaController {
 
             terceraController.setPaciente(
                     pacienteSeleccionado.getNombre(),
-                    pacienteSeleccionado.getFechaDeNacimiento()
+                    pacienteSeleccionado.getFechaDeNacimiento(),
+                    txtespecialidad.getText(),
+                    HelloApplication.getDoctorActual().getNombre()
             );
 
             Stage stage = new Stage();

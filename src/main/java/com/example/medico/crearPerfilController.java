@@ -1,102 +1,99 @@
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+package com.example.medico;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
-public class crearPerfilController extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        // Labels y Campos de Texto
-        Label lblCedula = new Label("Cédula Profesional:");
-        TextField txtCedula = new TextField();
+public class crearPerfilController {
 
-        Label lblNombre = new Label("Nombre:");
-        TextField txtNombre = new TextField();
+    @FXML
+    private ChoiceBox<String> BoxEspecialidad;
 
-        Label lblEspecialidad = new Label("Especialidad:");
-        ComboBox<String> cmbEspecialidad = new ComboBox<>();
-        cmbEspecialidad.getItems().addAll("Cardiología", "Neurología", "Pediatría", "Otros");
+    @FXML
+    private Button BtnCrearPerfil;
 
-        Label lblContrasena = new Label("Contraseña:");
-        PasswordField txtContrasena = new PasswordField();
+    @FXML
+    private Button BtnRegresar;
 
-        Label lblConfirmarContrasena = new Label("Confirmación de Contraseña:");
-        PasswordField txtConfirmarContrasena = new PasswordField();
+    @FXML
+    private TextField TxtCedulaProfesional;
 
-        // Botones
-        Button btnCrearPerfil = new Button("Crear Perfil");
-        Button btnRegresar = new Button("Regresar");
+    @FXML
+    private TextField TxtConfirmarContraseña;
 
-        // Evento para el botón "Crear Perfil"
-        btnCrearPerfil.setOnAction(e -> mostrarVentanaCreado(primaryStage));
+    @FXML
+    private TextField TxtContraseña;
 
-        // Evento para regresar a la ventana "ConsultaController"
-        btnRegresar.setOnAction(e -> regresarAConsulta(primaryStage));
+    @FXML
+    private TextField TxtNombre;
 
-        // Layout de Formulario
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(20));
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setAlignment(Pos.CENTER);
+    @FXML
+    public void initialize() {
 
-        grid.add(lblCedula, 0, 0);
-        grid.add(txtCedula, 1, 0);
-        grid.add(lblNombre, 0, 1);
-        grid.add(txtNombre, 1, 1);
-        grid.add(lblEspecialidad, 0, 2);
-        grid.add(cmbEspecialidad, 1, 2);
-        grid.add(lblContrasena, 0, 3);
-        grid.add(txtContrasena, 1, 3);
-        grid.add(lblConfirmarContrasena, 0, 4);
-        grid.add(txtConfirmarContrasena, 1, 4);
+        BoxEspecialidad.getItems().addAll(
+                "Medicina General",
+                "Cardiología",
+                "Pediatría",
+                "Dermatología",
+                "Ortopedia",
+                "Ginecología",
+                "Neurología",
+                "Oftalmología"
+        );
 
-        HBox buttonBox = new HBox(15, btnCrearPerfil, btnRegresar);
-        buttonBox.setAlignment(Pos.CENTER);
 
-        VBox root = new VBox(15, grid, buttonBox);
-        root.setPadding(new Insets(20));
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-background-color: linear-gradient(to right, #1E90FF, #87CEFA);");
-
-        // Configurar la escena y mostrar la ventana
-        Scene scene = new Scene(root, 500, 400);
-        primaryStage.setTitle("Registro de Perfil");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        BtnCrearPerfil.setOnAction(event -> crearPerfil());
+        BtnRegresar.setOnAction(event -> regresar());
     }
 
-    private void mostrarVentanaCreado(Stage primaryStage) {
-        Stage ventanaCreado = new Stage();
-        Label lblMensaje = new Label("Perfil creado exitosamente.");
-        Button btnAceptar = new Button("Aceptar");
-        btnAceptar.setOnAction(e -> {
-            ventanaCreado.close();
-            regresarAConsulta(primaryStage);
-        });
+    private void crearPerfil() {
+        String nombre = TxtNombre.getText().trim();
+        String cedula = TxtCedulaProfesional.getText().trim();
+        String especialidad = BoxEspecialidad.getValue();
+        String contraseña = TxtContraseña.getText().trim();
+        String confirmacion = TxtConfirmarContraseña.getText().trim();
 
-        VBox layout = new VBox(15, lblMensaje, btnAceptar);
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new Insets(20));
 
-        Scene scene = new Scene(layout, 300, 150);
-        ventanaCreado.setTitle("Perfil Creado");
-        ventanaCreado.setScene(scene);
-        ventanaCreado.show();
+        if (nombre.isEmpty() || cedula.isEmpty() || especialidad == null || contraseña.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios");
+            return;
+        }
+
+        if (!contraseña.equals(confirmacion)) {
+            mostrarAlerta("Error", "Las contraseñas no coinciden");
+            return;
+        }
+
+        if (cedula.length() < 6) {
+            mostrarAlerta("Error", "La cédula profesional debe tener al menos 6 caracteres");
+            return;
+        }
+
+
+        Doctor nuevoDoctor = new Doctor(nombre, cedula, especialidad, contraseña);
+        HelloApplication.setDoctorActual(nuevoDoctor);
+
+        mostrarAlerta("Éxito", "Perfil creado correctamente");
+        cerrarVentana();
     }
 
-    private void regresarAConsulta(Stage primaryStage) {
-        // Aquí deberías cargar la escena de "ConsultaController"
-        // Por ejemplo: new ConsultaController().start(primaryStage);
-        primaryStage.setTitle("Consulta");
-        primaryStage.setScene(new Scene(new Label("Pantalla de Consulta"), 500, 400)); // Simulación
+    private void regresar() {
+        cerrarVentana();
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    private void cerrarVentana() {
+        Stage stage = (Stage) BtnRegresar.getScene().getWindow();
+        stage.close();
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }
-

@@ -15,7 +15,6 @@ import java.time.format.DateTimeParseException;
 
 public class terceraVentanaController {
 
-
     @FXML private TextField txtPaciente;
     @FXML private TextField txtFechaNacimiento;
     @FXML private TextField txtPeso;
@@ -33,14 +32,12 @@ public class terceraVentanaController {
     @FXML private TextArea txtReceta;
     @FXML private TextField txtEspecialista;
 
-
     @FXML private TableView<Consulta> tablaConsultas;
     @FXML private TableColumn<Consulta, String> colFecha;
     @FXML private TableColumn<Consulta, String> colHora;
     @FXML private TableColumn<Consulta, String> colEspecialista;
     @FXML private TableColumn<Consulta, String> colMotivo;
     @FXML private TableColumn<Consulta, String> colDiagnostico;
-
 
     @FXML private Button btnGuardar;
     @FXML private Button btnEditar;
@@ -54,49 +51,42 @@ public class terceraVentanaController {
 
     @FXML
     public void initialize() {
-        try {
-            configurarTabla();
-            txtFecha.setText(LocalDate.now().format(fechaFormatter));
-            txtHora.setText(LocalTime.now().format(horaFormatter));
-        } catch (Exception e) {
-            mostrarAlerta("Error", "Error al inicializar: " + e.getMessage());
-        }
+        configurarTabla();
+        txtFecha.setText(LocalDate.now().format(fechaFormatter));
+        txtHora.setText(LocalTime.now().format(horaFormatter));
     }
 
     private void configurarTabla() {
-        try {
-            colFecha.setCellValueFactory(cellData ->
-                    new SimpleStringProperty(cellData.getValue().getFecha().format(fechaFormatter)));
-            colHora.setCellValueFactory(cellData ->
-                    new SimpleStringProperty(cellData.getValue().getHora().format(horaFormatter)));
-            colEspecialista.setCellValueFactory(new PropertyValueFactory<>("especialista"));
-            colMotivo.setCellValueFactory(new PropertyValueFactory<>("motivo"));
-            colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
+        colFecha.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFecha().format(fechaFormatter)));
+        colHora.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getHora().format(horaFormatter)));
+        colEspecialista.setCellValueFactory(new PropertyValueFactory<>("especialista"));
+        colMotivo.setCellValueFactory(new PropertyValueFactory<>("motivo"));
+        colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
 
-            tablaConsultas.setItems(historialConsultas);
-            tablaConsultas.getSelectionModel().selectedItemProperty().addListener(
-                    (obs, oldSelection, newSelection) -> {
-                        consultaSeleccionada = newSelection;
-                        if (newSelection != null) {
-                            cargarDatosConsulta(newSelection);
-                        }
-                    });
-        } catch (Exception e) {
-            mostrarAlerta("Error", "Error al configurar tabla: " + e.getMessage());
-        }
+        tablaConsultas.setItems(historialConsultas);
+        tablaConsultas.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
+                    consultaSeleccionada = newSelection;
+                    if (newSelection != null) {
+                        cargarDatosConsulta(newSelection);
+                    }
+                });
     }
 
-    public void setPaciente(String nombre, String fechaNacimiento) {
+    public void setPaciente(String nombre, String fechaNacimiento, String especialidad, String nombreDoctor) {
         txtPaciente.setText(nombre);
         txtFechaNacimiento.setText(fechaNacimiento);
+        txtEspecialista.setText(nombreDoctor + " - " + especialidad);
         txtPaciente.setEditable(false);
         txtFechaNacimiento.setEditable(false);
+        txtEspecialista.setEditable(false);
         cargarHistorialPaciente(nombre);
     }
 
     private void cargarHistorialPaciente(String nombrePaciente) {
         historialConsultas.clear();
-
     }
 
     @FXML
@@ -119,13 +109,7 @@ public class terceraVentanaController {
         }
     }
 
-    private Consulta crearConsultaDesdeFormulario() {
-
-        int pulsaciones = parseToInt(txtPulsaciones.getText());
-        double temperatura = parseToDouble(txtTemperatura.getText());
-        double peso = parseToDouble(txtPeso.getText());
-        double altura = parseToDouble(txtAltura.getText());
-
+    private Consulta crearConsultaDesdeFormulario() throws NumberFormatException {
         return new Consulta(
                 txtPaciente.getText(),
                 LocalDate.parse(txtFecha.getText(), fechaFormatter),
@@ -134,73 +118,16 @@ public class terceraVentanaController {
                 txtRazonConsulta.getText(),
                 txtDiagnostico.getText(),
                 txtFechaNacimiento.getText(),
-                pulsaciones,
-                temperatura,
+                Integer.parseInt(txtPulsaciones.getText()),
+                Double.parseDouble(txtTemperatura.getText()),
                 txtAlergias.getText(),
-                peso,
-                altura,
+                Double.parseDouble(txtPeso.getText()),
+                Double.parseDouble(txtAltura.getText()),
                 txtPresionArterial.getText(),
                 txtReceta.getText(),
                 txtSintomas.getText(),
                 txtObservaciones.getText()
         );
-    }
-
-
-    private int parseToInt(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
-    private double parseToDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return 0.0;
-        }
-    }
-
-    private boolean validarCampos() {
-
-        if (txtRazonConsulta.getText().trim().isEmpty()) {
-            mostrarAlerta("Error", "La razón de consulta es obligatoria");
-            return false;
-        }
-        if (txtDiagnostico.getText().trim().isEmpty()) {
-            mostrarAlerta("Error", "El diagnóstico es obligatorio");
-            return false;
-        }
-        try {
-            LocalDate.parse(txtFecha.getText(), fechaFormatter);
-            LocalTime.parse(txtHora.getText(), horaFormatter);
-        } catch (DateTimeParseException e) {
-            mostrarAlerta("Error", "Formato de fecha/hora incorrecto. Use DD/MM/AAAA y HH:mm");
-            return false;
-        }
-        return true;
-    }
-
-
-    @FXML
-    private void cargarDatosConsulta(Consulta consulta) {
-        txtFecha.setText(consulta.getFecha().format(fechaFormatter));
-        txtHora.setText(consulta.getHora().format(horaFormatter));
-        txtEspecialista.setText(consulta.getEspecialista());
-        txtRazonConsulta.setText(consulta.getMotivo());
-        txtDiagnostico.setText(consulta.getDiagnostico());
-        txtPulsaciones.setText(String.valueOf(consulta.getPulsaciones()));
-        txtTemperatura.setText(String.valueOf(consulta.getTemperatura()));
-        txtAlergias.setText(consulta.getAlergias());
-        txtPeso.setText(String.valueOf(consulta.getPeso()));
-        txtAltura.setText(String.valueOf(consulta.getAltura()));
-        txtPresionArterial.setText(consulta.getPresionArterial());
-        txtReceta.setText(consulta.getReceta());
-        txtSintomas.setText(consulta.getSintomas());
-        txtObservaciones.setText(consulta.getObservaciones());
-        habilitarCampos(false);
     }
 
     @FXML
@@ -227,6 +154,43 @@ public class terceraVentanaController {
         stage.close();
     }
 
+    private void cargarDatosConsulta(Consulta consulta) {
+        txtFecha.setText(consulta.getFecha().format(fechaFormatter));
+        txtHora.setText(consulta.getHora().format(horaFormatter));
+        txtEspecialista.setText(consulta.getEspecialista());
+        txtRazonConsulta.setText(consulta.getMotivo());
+        txtDiagnostico.setText(consulta.getDiagnostico());
+        txtPulsaciones.setText(String.valueOf(consulta.getPulsaciones()));
+        txtTemperatura.setText(String.valueOf(consulta.getTemperatura()));
+        txtAlergias.setText(consulta.getAlergias());
+        txtPeso.setText(String.valueOf(consulta.getPeso()));
+        txtAltura.setText(String.valueOf(consulta.getAltura()));
+        txtPresionArterial.setText(consulta.getPresionArterial());
+        txtReceta.setText(consulta.getReceta());
+        txtSintomas.setText(consulta.getSintomas());
+        txtObservaciones.setText(consulta.getObservaciones());
+        habilitarCampos(false);
+    }
+
+    private boolean validarCampos() {
+        if (txtRazonConsulta.getText().trim().isEmpty()) {
+            mostrarAlerta("Error", "La razón de consulta es obligatoria");
+            return false;
+        }
+        if (txtDiagnostico.getText().trim().isEmpty()) {
+            mostrarAlerta("Error", "El diagnóstico es obligatorio");
+            return false;
+        }
+        try {
+            LocalDate.parse(txtFecha.getText(), fechaFormatter);
+            LocalTime.parse(txtHora.getText(), horaFormatter);
+        } catch (DateTimeParseException e) {
+            mostrarAlerta("Error", "Formato de fecha/hora incorrecto. Use DD/MM/AAAA y HH:mm");
+            return false;
+        }
+        return true;
+    }
+
     private void limpiarFormulario() {
         txtRazonConsulta.clear();
         txtDiagnostico.clear();
@@ -239,7 +203,6 @@ public class terceraVentanaController {
         txtSintomas.clear();
         txtObservaciones.clear();
         txtReceta.clear();
-        txtEspecialista.clear();
     }
 
     private void habilitarCampos(boolean habilitar) {
@@ -254,7 +217,6 @@ public class terceraVentanaController {
         txtSintomas.setEditable(habilitar);
         txtObservaciones.setEditable(habilitar);
         txtReceta.setEditable(habilitar);
-        txtEspecialista.setEditable(habilitar);
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

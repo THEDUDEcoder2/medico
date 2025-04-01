@@ -7,8 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class
-HelloApplication extends Application {
+public class HelloApplication extends Application {
+    private static Doctor doctorActual;
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("portada consultorio.fxml"));
@@ -16,6 +17,14 @@ HelloApplication extends Application {
         stage.setTitle("bienvenido :-)");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void setDoctorActual(Doctor doctor) {
+        doctorActual = doctor;
+    }
+
+    public static Doctor getDoctorActual() {
+        return doctorActual;
     }
 
     public static void main(String[] args) {
