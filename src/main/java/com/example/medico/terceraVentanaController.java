@@ -66,13 +66,6 @@ public class terceraVentanaController {
         colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
 
         tablaConsultas.setItems(historialConsultas);
-        tablaConsultas.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldSelection, newSelection) -> {
-                    consultaSeleccionada = newSelection;
-                    if (newSelection != null) {
-                        cargarDatosConsulta(newSelection);
-                    }
-                });
     }
 
     public void setPaciente(String nombre, String fechaNacimiento, String especialidad, String nombreDoctor) {
@@ -94,11 +87,8 @@ public class terceraVentanaController {
         try {
             if (validarCampos()) {
                 Consulta consulta = crearConsultaDesdeFormulario();
-                if (consultaSeleccionada != null) {
-                    historialConsultas.set(historialConsultas.indexOf(consultaSeleccionada), consulta);
-                } else {
-                    historialConsultas.add(consulta);
-                }
+                historialConsultas.add(consulta); // Agregar consulta a la lista
+                tablaConsultas.refresh(); // Refrescar la tabla para mostrar la nueva consulta
                 mostrarAlerta("Éxito", "Consulta guardada correctamente");
                 nuevaConsulta(null);
             }
@@ -131,19 +121,9 @@ public class terceraVentanaController {
     }
 
     @FXML
-    private void editarConsulta(ActionEvent event) {
-        if (consultaSeleccionada != null) {
-            habilitarCampos(true);
-        } else {
-            mostrarAlerta("Error", "Seleccione una consulta para editar");
-        }
-    }
-
-    @FXML
     private void nuevaConsulta(ActionEvent event) {
         consultaSeleccionada = null;
         limpiarFormulario();
-        habilitarCampos(true);
         txtFecha.setText(LocalDate.now().format(fechaFormatter));
         txtHora.setText(LocalTime.now().format(horaFormatter));
     }
@@ -152,24 +132,6 @@ public class terceraVentanaController {
     private void regresar(ActionEvent event) {
         Stage stage = (Stage) btnRegresar.getScene().getWindow();
         stage.close();
-    }
-
-    private void cargarDatosConsulta(Consulta consulta) {
-        txtFecha.setText(consulta.getFecha().format(fechaFormatter));
-        txtHora.setText(consulta.getHora().format(horaFormatter));
-        txtEspecialista.setText(consulta.getEspecialista());
-        txtRazonConsulta.setText(consulta.getMotivo());
-        txtDiagnostico.setText(consulta.getDiagnostico());
-        txtPulsaciones.setText(String.valueOf(consulta.getPulsaciones()));
-        txtTemperatura.setText(String.valueOf(consulta.getTemperatura()));
-        txtAlergias.setText(consulta.getAlergias());
-        txtPeso.setText(String.valueOf(consulta.getPeso()));
-        txtAltura.setText(String.valueOf(consulta.getAltura()));
-        txtPresionArterial.setText(consulta.getPresionArterial());
-        txtReceta.setText(consulta.getReceta());
-        txtSintomas.setText(consulta.getSintomas());
-        txtObservaciones.setText(consulta.getObservaciones());
-        habilitarCampos(false);
     }
 
     private boolean validarCampos() {
@@ -203,20 +165,6 @@ public class terceraVentanaController {
         txtSintomas.clear();
         txtObservaciones.clear();
         txtReceta.clear();
-    }
-
-    private void habilitarCampos(boolean habilitar) {
-        txtRazonConsulta.setEditable(habilitar);
-        txtDiagnostico.setEditable(habilitar);
-        txtPeso.setEditable(habilitar);
-        txtAltura.setEditable(habilitar);
-        txtTemperatura.setEditable(habilitar);
-        txtPresionArterial.setEditable(habilitar);
-        txtPulsaciones.setEditable(habilitar);
-        txtAlergias.setEditable(habilitar);
-        txtSintomas.setEditable(habilitar);
-        txtObservaciones.setEditable(habilitar);
-        txtReceta.setEditable(habilitar);
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

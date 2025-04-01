@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.CubicCurve?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
@@ -83,10 +82,6 @@
          </font>
       </Label>
       <TextField fx:id="txtEspecialista" layoutX="310.0" layoutY="17.0" prefHeight="26.0" prefWidth="258.0" />
-      <CubicCurve controlX1="-69.0" controlX2="68.0" controlY1="-50.0" controlY2="47.0" endX="150.0" fill="#ff1f1f" layoutX="165.0" layoutY="61.0" startX="-129.0" stroke="BLACK" />
-      <CubicCurve controlX1="-69.0" controlX2="68.0" controlY1="-50.0" controlY2="47.0" endX="150.0" fill="#ff1f1f" layoutX="466.0" layoutY="62.0" startX="-150.0" stroke="BLACK" />
-      <CubicCurve controlX1="-2.0" controlX2="-118.0" controlY1="21.0" controlY2="-31.20465087890625" endX="-50.0" endY="-43.0" fill="#ff1f1f" layoutX="669.0" layoutY="41.0" startX="-61.0" startY="21.0" stroke="BLACK" />
-      <CubicCurve controlX1="-108.0" controlX2="-20.0" controlY1="-1.7573585510253906" controlY2="-14.999996185302734" endX="-64.81756591796875" endY="-45.0" fill="#ff1f1f" layoutX="100.0" layoutY="45.0" startX="-64.81756591796875" startY="16.806365966796875" stroke="BLACK" />
       <Line endX="420.6568603515625" layoutX="221.0" layoutY="89.0" startX="-202.0" stroke="#4feb98" strokeWidth="8.0" />
       <Line endX="-216.0" endY="437.0" layoutX="230.0" layoutY="100.0" startX="-216.0" startY="-10.0" stroke="#4feb98" strokeWidth="8.0" />
       <Line endX="-214.3431396484375" endY="422.0" layoutX="860.0" layoutY="111.0" startX="-214.3431396484375" startY="-22.0" stroke="#4feb98" strokeWidth="8.0" />
