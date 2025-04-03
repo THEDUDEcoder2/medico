@@ -1,4 +1,4 @@
-package com.example.medico;
+package com.example.medico.modelos;
 
 public class Doctor {
     private String nombre;
@@ -13,7 +13,7 @@ public class Doctor {
         this.contraseña = contraseña;
     }
 
-
+    // Getters
     public String getNombre() { return nombre; }
     public String getCedula() { return cedula; }
     public String getEspecialidad() { return especialidad; }

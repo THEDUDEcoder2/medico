@@ -4,17 +4,19 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import com.example.medico.modelos.Doctor;
 
 public class HelloApplication extends Application {
     private static Doctor doctorActual;
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("portada consultorio.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                HelloApplication.class.getResource("/com/example/medico/views/portada consultorio.fxml")
+        );
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("bienvenido :-)");
+        stage.setTitle("Sistema Médico");
         stage.setScene(scene);
         stage.show();
     }

@@ -1,30 +1,26 @@
-package com.example.medico;
+package com.example.medico.controladores;
 
+import com.example.medico.HelloApplication;
+import com.example.medico.modelos.Doctor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class consultaController {
-
     @FXML private Button BCrearPerfil;
     @FXML private Button BIniciarSesion;
-    @FXML private Button Bpacientes;
     @FXML private TextField TxtCedulaProfesional;
     @FXML private TextField TxtContraseña;
 
     @FXML
-    void IniciarSesion(ActionEvent event) {
+    void IniciarSesion(ActionEvent event) throws IOException {
         String cedula = TxtCedulaProfesional.getText();
         String contraseña = TxtContraseña.getText();
-
         Doctor doctor = HelloApplication.getDoctorActual();
 
         if (doctor == null) {
@@ -34,21 +30,10 @@ public class consultaController {
 
         if (doctor.getCedula().equals(cedula)) {
             if (doctor.getContraseña().equals(contraseña)) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("segunda ventana.fxml"));
-                    Parent root = loader.load();
-
-                    segundaVentanaController controller = loader.getController();
-                    controller.setEspecialidad(doctor.getEspecialidad());
-
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-
-                    ((Stage) BIniciarSesion.getScene().getWindow()).close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                cargarVentana(
+                        "/com/example/medico/views/segunda ventana.fxml",
+                        "Gestión de Pacientes"
+                );
             } else {
                 mostrarAlerta("Error", "Contraseña incorrecta");
             }
@@ -58,13 +43,21 @@ public class consultaController {
     }
 
     @FXML
-    private void Doctor(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("crear perfil.fxml"));
-        Parent root = loader.load();
+    private void crearPerfil(ActionEvent event) throws IOException {
+        cargarVentana(
+                "/com/example/medico/views/crear perfil.fxml",
+                "Crear Perfil Médico"
+        );
+    }
 
+    private void cargarVentana(String fxml, String titulo) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
         Stage stage = new Stage();
+        stage.setTitle(titulo);
         stage.setScene(new Scene(root));
         stage.show();
+        ((Stage) BIniciarSesion.getScene().getWindow()).close();
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
@@ -73,8 +66,5 @@ public class consultaController {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
-    }
-
-    public void segundaVentana(ActionEvent actionEvent) {
     }
 }

@@ -12,36 +12,52 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="1205.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medico.terceraVentanaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="1205.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medico.controladores.terceraVentanaController">
+
    <children>
-      <ImageView fitHeight="669.0" fitWidth="1566.0" layoutX="8.0" layoutY="-104.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="573.0" fitWidth="1205.0" layoutY="-3.0">
          <image>
-            <Image url="@Bienvenido%20(1).jpg" />
+            <Image url="@../assets/Bienvenido%20(1).jpg" />
          </image>
       </ImageView>
+
+
       <Label layoutX="35.0" layoutY="111.0" text="Paciente:" />
-      <Label layoutX="314.0" layoutY="183.0" text="Peso:" />
       <TextField fx:id="txtPaciente" layoutX="140.0" layoutY="107.0" prefHeight="26.0" prefWidth="150.0" />
+
+      <Label layoutX="24.0" layoutY="146.0" text="Fecha de nacimiento:" />
       <TextField fx:id="txtFechaNacimiento" layoutX="140.0" layoutY="142.0" prefHeight="26.0" prefWidth="150.0" promptText="DD/MM/AAAA" />
+
+      <Label layoutX="314.0" layoutY="183.0" text="Peso:" />
       <TextField fx:id="txtPeso" editable="false" layoutX="367.0" layoutY="178.0" prefHeight="26.0" prefWidth="80.0" />
+
       <Label layoutX="473.0" layoutY="184.0" text="Altura:" />
       <TextField fx:id="txtAltura" editable="false" layoutX="544.0" layoutY="179.0" prefHeight="25.0" prefWidth="66.0" />
+
       <Label layoutX="467.0" layoutY="148.0" text="Temperatura:" />
-      <Label layoutX="401.0" layoutY="242.0" text="Presion arterial:" />
-      <Label layoutX="296.0" layoutY="147.0" text="Pulsaciones:" />
       <TextField fx:id="txtTemperatura" editable="false" layoutX="548.0" layoutY="142.0" prefHeight="26.0" prefWidth="64.0" />
-      <TextField fx:id="txtPresionArterial" editable="false" layoutX="502.0" layoutY="238.0" prefHeight="26.0" prefWidth="70.0" />
+
+      <Label layoutX="401.0" layoutY="242.0" text="Presion arterial:" />
+      <TextField fx:id="txtPresion" editable="false" layoutX="502.0" layoutY="238.0" prefHeight="26.0" prefWidth="70.0" />
+
+      <Label layoutX="296.0" layoutY="147.0" text="Pulsaciones:" />
       <TextField fx:id="txtPulsaciones" editable="false" layoutX="370.0" layoutY="143.0" prefHeight="26.0" prefWidth="82.0" />
+
       <Label layoutX="46.0" layoutY="182.0" text="Alergias:" />
       <TextField fx:id="txtAlergias" editable="false" layoutX="140.0" layoutY="176.0" prefHeight="32.0" prefWidth="150.0" />
+
       <Label layoutX="30.0" layoutY="242.0" text="Razon de consulta:" />
+      <TextArea fx:id="txtRazon" editable="false" layoutX="140.0" layoutY="230.0" prefHeight="77.0" prefWidth="242.0" />
+
       <Label layoutX="54.0" layoutY="324.0" text="Sintomas:" />
-      <Label layoutX="43.0" layoutY="399.0" text="Observaciones:" />
-      <TextArea fx:id="txtRazonConsulta" editable="false" layoutX="140.0" layoutY="230.0" prefHeight="77.0" prefWidth="242.0" />
       <TextArea fx:id="txtSintomas" editable="false" layoutX="137.0" layoutY="313.0" prefHeight="56.0" prefWidth="249.0" />
+
+      <Label layoutX="43.0" layoutY="399.0" text="Observaciones:" />
       <TextArea fx:id="txtObservaciones" editable="false" layoutX="137.0" layoutY="380.0" prefHeight="56.0" prefWidth="249.0" />
+
       <Label layoutX="47.0" layoutY="468.0" text="Diagnostico:" />
       <TextArea fx:id="txtDiagnostico" editable="false" layoutX="133.0" layoutY="455.0" prefHeight="44.0" prefWidth="257.0" />
+
       <TableView fx:id="tablaConsultas" layoutX="659.0" layoutY="59.0" prefHeight="447.0" prefWidth="538.0">
          <columns>
             <TableColumn fx:id="colFecha" prefWidth="75.0" text="Fecha" />
@@ -51,44 +67,55 @@
             <TableColumn fx:id="colDiagnostico" prefWidth="75.0" text="Diagnóstico" />
          </columns>
       </TableView>
+
       <Label layoutX="311.0" layoutY="112.0" text="Fecha:" />
       <TextField fx:id="txtFecha" layoutX="371.0" layoutY="108.0" prefHeight="26.0" prefWidth="80.0" promptText="DD/MM/AAAA" />
+
       <Label layoutX="476.0" layoutY="111.0" text="Hora:" />
       <TextField fx:id="txtHora" layoutX="547.0" layoutY="108.0" prefHeight="26.0" prefWidth="66.0" promptText="HH:MM" />
+
       <TextArea fx:id="txtReceta" editable="false" layoutX="407.0" layoutY="322.0" prefHeight="95.0" prefWidth="219.0" />
       <Label layoutX="451.0" layoutY="282.0" text="Receta:" />
+
       <Label layoutX="840.0" layoutY="12.0" text="Consultas" textFill="#5c57eb">
          <font>
             <Font name="Arial Black" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="btnNuevaConsulta" layoutX="665.0" layoutY="518.0" mnemonicParsing="false" onAction="#nuevaConsulta" prefHeight="39.0" prefWidth="150.0" text="Nueva consulta" textFill="#057227">
+
+
+      <Button fx:id="btnNueva" layoutX="665.0" layoutY="518.0" mnemonicParsing="false" onAction="#nuevaConsulta" prefHeight="39.0" prefWidth="150.0" text="Nueva consulta" textFill="#057227">
          <font>
             <Font name="Arial Black" size="14.0" />
          </font>
       </Button>
+
       <Button fx:id="btnGuardar" layoutX="916.0" layoutY="521.0" mnemonicParsing="false" onAction="#guardarConsulta" text="Guardar" textFill="#2c29ee">
          <font>
             <Font name="Arial Black" size="14.0" />
          </font>
       </Button>
+
       <Button fx:id="btnEditar" layoutX="831.0" layoutY="522.0" mnemonicParsing="false" onAction="#editarConsulta" text="Editar" textFill="#f20000">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+
       <Button fx:id="btnRegresar" layoutX="1018.0" layoutY="521.0" mnemonicParsing="false" onAction="#regresar" text="Regresar" textFill="#a228e0">
          <font>
             <Font name="Arial Black" size="14.0" />
          </font>
       </Button>
-      <Label layoutX="24.0" layoutY="146.0" text="Fecha de nacimiento:" />
+
       <Label layoutX="70.0" layoutY="20.0" text="Nombre y Especialidad del doctor">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <TextField fx:id="txtEspecialista" layoutX="310.0" layoutY="17.0" prefHeight="26.0" prefWidth="258.0" />
+
+
       <Line endX="420.6568603515625" layoutX="221.0" layoutY="89.0" startX="-202.0" stroke="#4feb98" strokeWidth="8.0" />
       <Line endX="-216.0" endY="437.0" layoutX="230.0" layoutY="100.0" startX="-216.0" startY="-10.0" stroke="#4feb98" strokeWidth="8.0" />
       <Line endX="-214.3431396484375" endY="422.0" layoutX="860.0" layoutY="111.0" startX="-214.3431396484375" startY="-22.0" stroke="#4feb98" strokeWidth="8.0" />

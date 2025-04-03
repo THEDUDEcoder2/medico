@@ -1,8 +1,8 @@
-package com.example.medico;
+package com.example.medico.modelos;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
+import com.example.medico.modelos.Doctor;
 public class Consulta {
     private String paciente;
     private LocalDate fecha;
