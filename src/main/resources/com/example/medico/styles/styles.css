@@ -23,5 +23,16 @@
 .button:pressed {
     -fx-background-color: linear-gradient(to right, #6600ff, #ff0099);
     -fx-translate-y: 2px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 255, 255, 0.8), 15, 0.8, 0, 0); /* Brillo cian */
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 255, 0.8), 15, 0.8, 0, 0);
 }
+.label{
+-fx-text-fill: purple;
+
+}
+ .mi.label{
+ -fx-background-color: lightblue;
+ -fx-border-color: black;
+ -fx-border-width: 2px;
+ -fx-border-radius: 5px;
+ -fx-padding: 10px;
+ }

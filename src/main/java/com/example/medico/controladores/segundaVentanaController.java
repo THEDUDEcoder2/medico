@@ -1,7 +1,7 @@
 package com.example.medico.controladores;
 
-import com.example.medico.HelloApplication;
 import com.example.medico.modelos.Pacientes;
+import com.example.medico.modelos.SharedData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,13 +14,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class segundaVentanaController {
-
     @FXML private TextField txtNombre;
     @FXML private DatePicker txtFechaNacimiento;
     @FXML private TextField txtDomicilio;
@@ -29,8 +27,6 @@ public class segundaVentanaController {
     @FXML private TextField txtEspecialidad;
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<String> comboTipoSangre;
-
-    // Tabla y columnas (solo las que existen en el FXML)
     @FXML private TableView<Pacientes> tablaPacientes;
     @FXML private TableColumn<Pacientes, String> colNombre;
     @FXML private TableColumn<Pacientes, String> colDomicilio;
@@ -38,24 +34,19 @@ public class segundaVentanaController {
     @FXML private TableColumn<Pacientes, String> colTelefono;
     @FXML private TableColumn<Pacientes, String> colSangre;
 
-    private ObservableList<Pacientes> listaPacientes = FXCollections.observableArrayList();
+    private final SharedData sharedData = SharedData.getInstance();
     private Pacientes pacienteSeleccionado;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML
     public void initialize() {
-        // Configuración inicial
         comboTipoSangre.getItems().addAll("O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-");
-        txtEspecialidad.setText(HelloApplication.getDoctorActual().getEspecialidad());
+        txtEspecialidad.setText(sharedData.getDoctorActual().getEspecialidad());
         txtEspecialidad.setEditable(false);
 
-        // Configurar tabla
         configurarTabla();
-
-        // Configurar búsqueda
         configurarBusqueda();
 
-        // Listener para selección de pacientes
         tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
                     pacienteSeleccionado = newSelection;
@@ -72,11 +63,11 @@ public class segundaVentanaController {
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colSangre.setCellValueFactory(new PropertyValueFactory<>("tipoSangre"));
 
-        tablaPacientes.setItems(listaPacientes);
+        tablaPacientes.setItems(sharedData.getTodosLosPacientes());
     }
 
     private void configurarBusqueda() {
-        FilteredList<Pacientes> filtro = new FilteredList<>(listaPacientes, p -> true);
+        FilteredList<Pacientes> filtro = new FilteredList<>(sharedData.getTodosLosPacientes(), p -> true);
         txtBuscar.textProperty().addListener((obs, oldVal, newVal) -> {
             filtro.setPredicate(paciente -> {
                 if (newVal == null || newVal.isEmpty()) return true;
@@ -98,7 +89,7 @@ public class segundaVentanaController {
 
             Pacientes paciente = new Pacientes(
                     txtNombre.getText(),
-                    txtFechaNacimiento.getValue().format(dateFormatter), // Se guarda pero no se muestra
+                    txtFechaNacimiento.getValue().format(dateFormatter),
                     txtDomicilio.getText(),
                     txtNumeroSeguro.getText(),
                     txtTelefono.getText(),
@@ -108,7 +99,7 @@ public class segundaVentanaController {
             if (pacienteSeleccionado != null) {
                 actualizarPaciente(pacienteSeleccionado);
             } else {
-                listaPacientes.add(paciente);
+                sharedData.agregarPaciente(paciente);
             }
 
             limpiarCampos();
@@ -129,7 +120,7 @@ public class segundaVentanaController {
     @FXML
     private void eliminarPaciente(ActionEvent event) {
         if (pacienteSeleccionado != null) {
-            listaPacientes.remove(pacienteSeleccionado);
+            sharedData.eliminarPaciente(pacienteSeleccionado);
             limpiarCampos();
         } else {
             mostrarAlerta("Error", "Seleccione un paciente para eliminar");
@@ -149,10 +140,9 @@ public class segundaVentanaController {
 
             terceraVentanaController controller = loader.getController();
             controller.setPaciente(
-                    pacienteSeleccionado.getNombre(),
-                    pacienteSeleccionado.getFechaDeNacimiento(), // Se envía a la tercera ventana
+                    pacienteSeleccionado,
                     txtEspecialidad.getText(),
-                    HelloApplication.getDoctorActual().getNombre()
+                    sharedData.getDoctorActual().getNombre()
             );
 
             Stage stage = new Stage();
@@ -176,7 +166,7 @@ public class segundaVentanaController {
 
     private void cargarDatosFormulario(Pacientes paciente) {
         txtNombre.setText(paciente.getNombre());
-        txtFechaNacimiento.setValue(LocalDate.parse(paciente.getFechaDeNacimiento(), dateFormatter));
+        txtFechaNacimiento.setValue(LocalDate.parse(paciente.getFechaNacimiento(), dateFormatter));
         txtDomicilio.setText(paciente.getDomicilio());
         txtNumeroSeguro.setText(paciente.getNumeroSeguro());
         txtTelefono.setText(paciente.getTelefono());
@@ -185,7 +175,7 @@ public class segundaVentanaController {
 
     private void actualizarPaciente(Pacientes paciente) {
         paciente.setNombre(txtNombre.getText());
-        paciente.setFechaDeNacimiento(txtFechaNacimiento.getValue().format(dateFormatter));
+        paciente.setFechaNacimiento(txtFechaNacimiento.getValue().format(dateFormatter));
         paciente.setDomicilio(txtDomicilio.getText());
         paciente.setNumeroSeguro(txtNumeroSeguro.getText());
         paciente.setTelefono(txtTelefono.getText());

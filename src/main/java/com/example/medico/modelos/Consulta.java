@@ -2,7 +2,7 @@ package com.example.medico.modelos;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import com.example.medico.modelos.Doctor;
+
 public class Consulta {
     private String paciente;
     private LocalDate fecha;
@@ -11,11 +11,11 @@ public class Consulta {
     private String motivo;
     private String diagnostico;
     private String fechaNacimiento;
-    private String pulsaciones;  // Cambiado a String
-    private String temperatura;  // Cambiado a String
+    private String pulsaciones;
+    private String temperatura;
     private String alergias;
-    private String peso;         // Cambiado a String
-    private String altura;       // Cambiado a String
+    private String peso;
+    private String altura;
     private String presionArterial;
     private String receta;
     private String sintomas;
@@ -26,7 +26,6 @@ public class Consulta {
                     String fechaNacimiento, String pulsaciones, String temperatura,
                     String alergias, String peso, String altura, String presionArterial,
                     String receta, String sintomas, String observaciones) {
-
         this.paciente = paciente;
         this.fecha = fecha;
         this.hora = hora;

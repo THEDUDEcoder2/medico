@@ -1,6 +1,8 @@
 package com.example.medico.controladores;
 
 import com.example.medico.modelos.Consulta;
+import com.example.medico.modelos.Pacientes;
+import com.example.medico.modelos.SharedData;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,8 +45,10 @@ public class terceraVentanaController {
     @FXML private Button btnNueva;
     @FXML private Button btnRegresar;
 
+    private final SharedData sharedData = SharedData.getInstance();
     private ObservableList<Consulta> historial = FXCollections.observableArrayList();
     private Consulta consultaSeleccionada;
+    private Pacientes paciente;
     private final DateTimeFormatter fechaFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -55,11 +59,16 @@ public class terceraVentanaController {
         txtHora.setText(LocalTime.now().format(horaFormatter));
     }
 
-    public void setPaciente(String nombre, String fechaNacimiento, String especialidad, String doctor) {
-        txtPaciente.setText(nombre);
-        txtFechaNacimiento.setText(fechaNacimiento);
-        txtEspecialista.setText(doctor + " - " + especialidad);
+    public void setPaciente(Pacientes paciente, String text, String nombre) {
+        this.paciente = paciente;
+        txtPaciente.setText(paciente.getNombre());
+        txtFechaNacimiento.setText(paciente.getFechaNacimiento());
+        txtEspecialista.setText(
+                sharedData.getDoctorActual().getNombre() + " - " +
+                        sharedData.getDoctorActual().getEspecialidad()
+        );
         bloquearCamposPaciente();
+        historial.setAll(paciente.getConsultas());
     }
 
     private void configurarTabla() {
@@ -106,12 +115,12 @@ public class terceraVentanaController {
             if (consultaSeleccionada != null) {
                 actualizarConsulta(consulta);
             } else {
+                paciente.agregarConsulta(consulta);
                 historial.add(consulta);
             }
 
             mostrarAlerta("Éxito", "Consulta guardada correctamente", Alert.AlertType.INFORMATION);
             nuevaConsulta();
-
         } catch (DateTimeParseException e) {
             mostrarAlerta("Error", "Formato de fecha/hora incorrecto (DD/MM/AAAA HH:MM)", Alert.AlertType.ERROR);
         } catch (Exception e) {

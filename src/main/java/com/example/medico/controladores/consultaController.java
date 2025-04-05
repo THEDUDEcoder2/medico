@@ -1,13 +1,14 @@
 package com.example.medico.controladores;
 
-import com.example.medico.HelloApplication;
-import com.example.medico.modelos.Doctor;
+import com.example.medico.modelos.SharedData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -21,15 +22,15 @@ public class consultaController {
     void IniciarSesion(ActionEvent event) throws IOException {
         String cedula = TxtCedulaProfesional.getText();
         String contraseña = TxtContraseña.getText();
-        Doctor doctor = HelloApplication.getDoctorActual();
+        SharedData sharedData = SharedData.getInstance();
 
-        if (doctor == null) {
+        if (sharedData.getDoctorActual() == null) {
             mostrarAlerta("Error", "No hay perfiles registrados. Cree un perfil primero.");
             return;
         }
 
-        if (doctor.getCedula().equals(cedula)) {
-            if (doctor.getContraseña().equals(contraseña)) {
+        if (sharedData.getDoctorActual().getCedula().equals(cedula)) {
+            if (sharedData.getDoctorActual().getContraseña().equals(contraseña)) {
                 cargarVentana(
                         "/com/example/medico/views/segunda ventana.fxml",
                         "Gestión de Pacientes"

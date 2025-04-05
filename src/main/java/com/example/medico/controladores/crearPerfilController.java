@@ -1,7 +1,7 @@
 package com.example.medico.controladores;
 
-import com.example.medico.HelloApplication;
 import com.example.medico.modelos.Doctor;
+import com.example.medico.modelos.SharedData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +18,8 @@ public class crearPerfilController {
     @FXML private TextField TxtConfirmarContraseña;
     @FXML private TextField TxtContraseña;
     @FXML private TextField TxtNombre;
+
+    private final SharedData sharedData = SharedData.getInstance();
 
     @FXML
     public void initialize() {
@@ -51,13 +53,10 @@ public class crearPerfilController {
         }
 
         Doctor nuevoDoctor = new Doctor(nombre, cedula, especialidad, contraseña);
-        HelloApplication.setDoctorActual(nuevoDoctor);
+        sharedData.setDoctorActual(nuevoDoctor);
         mostrarAlerta("Éxito", "Perfil creado correctamente");
 
-        // Cerrar la ventana actual
         cerrarVentana();
-
-        // Abrir la ventana principal
         abrirVentanaPrincipal();
     }
 
@@ -73,7 +72,7 @@ public class crearPerfilController {
 
     private void abrirVentanaPrincipal() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/medico/views/portada consultorio.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/medico/views/portada consultorio.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setTitle("Sistema Médico");
