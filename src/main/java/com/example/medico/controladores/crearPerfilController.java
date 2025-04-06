@@ -48,13 +48,13 @@ public class crearPerfilController {
         }
 
         if (cedula.length() < 6) {
-            mostrarAlerta("Error", "La cédula debe tener al menos 6 caracteres");
+            mostrarAlerta("Error", "La cedula debe tener al menos 6 caracteres");
             return;
         }
 
         Doctor nuevoDoctor = new Doctor(nombre, cedula, especialidad, contraseña);
         sharedData.setDoctorActual(nuevoDoctor);
-        mostrarAlerta("Éxito", "Perfil creado correctamente");
+        mostrarAlerta("Exito", "Perfil creado correctamente");
 
         cerrarVentana();
         abrirVentanaPrincipal();
@@ -75,7 +75,7 @@ public class crearPerfilController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/medico/views/portada consultorio.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
-            stage.setTitle("Sistema Médico");
+            stage.setTitle("Sistema Medico");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

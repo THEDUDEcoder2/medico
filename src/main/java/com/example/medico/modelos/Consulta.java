@@ -44,7 +44,7 @@ public class Consulta {
         this.observaciones = observaciones;
     }
 
-    // Getters
+
     public String getPaciente() { return paciente; }
     public LocalDate getFecha() { return fecha; }
     public LocalTime getHora() { return hora; }
@@ -62,7 +62,7 @@ public class Consulta {
     public String getSintomas() { return sintomas; }
     public String getObservaciones() { return observaciones; }
 
-    // Setters
+
     public void setPaciente(String paciente) { this.paciente = paciente; }
     public void setFecha(LocalDate fecha) { this.fecha = fecha; }
     public void setHora(LocalTime hora) { this.hora = hora; }

@@ -13,13 +13,13 @@ public class Doctor {
         this.contraseña = contraseña;
     }
 
-    // Getters
+
     public String getNombre() { return nombre; }
     public String getCedula() { return cedula; }
     public String getEspecialidad() { return especialidad; }
     public String getContraseña() { return contraseña; }
 
-    // Setters
+
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setCedula(String cedula) { this.cedula = cedula; }
     public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }

@@ -2,8 +2,7 @@ package com.example.medico.controladores;
 
 import com.example.medico.modelos.Pacientes;
 import com.example.medico.modelos.SharedData;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;

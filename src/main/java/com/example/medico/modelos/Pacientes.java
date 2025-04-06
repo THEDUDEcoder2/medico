@@ -26,7 +26,7 @@ public class Pacientes{
         this.tipoSangre.set(tipoSangre);
     }
 
-    // Métodos para consultas
+
     public ObservableList<Consulta> getConsultas() {
         return consultas;
     }
@@ -35,7 +35,7 @@ public class Pacientes{
         consultas.add(consulta);
     }
 
-    // Property methods
+
     public StringProperty nombreProperty() { return nombre; }
     public StringProperty fechaNacimientoProperty() { return fechaNacimiento; }
     public StringProperty domicilioProperty() { return domicilio; }
@@ -43,7 +43,7 @@ public class Pacientes{
     public StringProperty telefonoProperty() { return telefono; }
     public StringProperty tipoSangreProperty() { return tipoSangre; }
 
-    // Getters
+
     public String getNombre() { return nombre.get(); }
     public String getFechaNacimiento() { return fechaNacimiento.get(); }
     public String getDomicilio() { return domicilio.get(); }
@@ -51,7 +51,7 @@ public class Pacientes{
     public String getTelefono() { return telefono.get(); }
     public String getTipoSangre() { return tipoSangre.get(); }
 
-    // Setters
+
     public void setNombre(String nombre) { this.nombre.set(nombre); }
     public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento.set(fechaNacimiento); }
     public void setDomicilio(String domicilio) { this.domicilio.set(domicilio); }

@@ -39,7 +39,7 @@ public class consultaController {
                 mostrarAlerta("Error", "Contraseña incorrecta");
             }
         } else {
-            mostrarAlerta("Error", "Cédula profesional no encontrada");
+            mostrarAlerta("Error", "Cedula profesional no encontrada");
         }
     }
 
@@ -47,7 +47,7 @@ public class consultaController {
     private void crearPerfil(ActionEvent event) throws IOException {
         cargarVentana(
                 "/com/example/medico/views/crear perfil.fxml",
-                "Crear Perfil Médico"
+                "Crear Perfil Medico"
         );
     }
 

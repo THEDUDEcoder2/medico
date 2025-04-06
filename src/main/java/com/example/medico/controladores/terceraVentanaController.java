@@ -80,6 +80,7 @@ public class terceraVentanaController {
         colMotivo.setCellValueFactory(new PropertyValueFactory<>("motivo"));
         colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
 
+
         tablaConsultas.setItems(historial);
         tablaConsultas.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> {
@@ -119,7 +120,7 @@ public class terceraVentanaController {
                 historial.add(consulta);
             }
 
-            mostrarAlerta("Éxito", "Consulta guardada correctamente", Alert.AlertType.INFORMATION);
+            mostrarAlerta("Exito", "Consulta guardada correctamente", Alert.AlertType.INFORMATION);
             nuevaConsulta();
         } catch (DateTimeParseException e) {
             mostrarAlerta("Error", "Formato de fecha/hora incorrecto (DD/MM/AAAA HH:MM)", Alert.AlertType.ERROR);
@@ -190,8 +191,11 @@ public class terceraVentanaController {
     }
 
     private void validarCampos() throws Exception {
-        if (txtRazon.getText().isEmpty() || txtDiagnostico.getText().isEmpty()) {
-            throw new Exception("Razón de consulta y diagnóstico son obligatorios");
+        if (txtRazon.getText().isEmpty() || txtDiagnostico.getText().isEmpty()|| txtPeso.getText().isEmpty() || txtAltura.getText().isEmpty()
+                || txtTemperatura.getText().isEmpty() || txtPresion.getText().isEmpty() || txtPulsaciones.getText().isEmpty()
+                || txtAlergias.getText().isEmpty() || txtSintomas.getText().isEmpty() || txtObservaciones.getText().isEmpty()
+                || txtReceta.getText().isEmpty()) {
+            throw new Exception("todos los campos son obligatorios");
         }
     }
 
