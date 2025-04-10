@@ -33,6 +33,7 @@ public class segundaVentanaController {
     @FXML private TableColumn<Pacientes, String> colTelefono;
     @FXML private TableColumn<Pacientes, String> colSangre;
     @FXML private Button btnRegresarprimeraventana;
+    @FXML private Button BtnLimpiar;
     private final SharedData sharedData = SharedData.getInstance();
     private Pacientes pacienteSeleccionado;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -218,5 +219,16 @@ public class segundaVentanaController {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+    @FXML
+    void Limpiar(ActionEvent event) {
+        txtNombre.clear();
+        txtFechaNacimiento.setValue(null);
+        txtDomicilio.clear();
+        txtNumeroSeguro.clear();
+        txtTelefono.clear();
+        comboTipoSangre.getSelectionModel().clearSelection();
+        pacienteSeleccionado = null;
+        tablaPacientes.getSelectionModel().clearSelection();
     }
 }
