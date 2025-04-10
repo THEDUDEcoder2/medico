@@ -32,7 +32,7 @@ public class segundaVentanaController {
     @FXML private TableColumn<Pacientes, String> colSeguro;
     @FXML private TableColumn<Pacientes, String> colTelefono;
     @FXML private TableColumn<Pacientes, String> colSangre;
-
+    @FXML private Button btnRegresarprimeraventana;
     private final SharedData sharedData = SharedData.getInstance();
     private Pacientes pacienteSeleccionado;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -150,6 +150,25 @@ public class segundaVentanaController {
         } catch (IOException e) {
             mostrarAlerta("Error", "No se pudo abrir la ventana: " + e.getMessage());
         }
+    }
+
+    @FXML
+    private void regresarAprimeraventana(ActionEvent event) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/medico/views/portada consultorio.fxml"));
+            Parent root = loader.load();
+            cerrarVentana();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo abrir la ventana: " + e.getMessage());
+        }
+    }
+    private void cerrarVentana() {
+        Stage stage = (Stage) btnRegresarprimeraventana.getScene().getWindow();
+        stage.close();
     }
 
     private void validarCampos() throws Exception {

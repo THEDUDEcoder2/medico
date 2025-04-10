@@ -4,6 +4,7 @@ import com.example.medico.modelos.Doctor;
 import com.example.medico.modelos.SharedData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -62,7 +63,17 @@ public class crearPerfilController {
 
     @FXML
     private void regresar() {
-        cerrarVentana();
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/medico/views/portada consultorio.fxml"));
+            Parent root = loader.load();
+            cerrarVentana();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void cerrarVentana() {

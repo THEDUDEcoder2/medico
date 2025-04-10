@@ -77,11 +77,11 @@
          <font><Font name="Arial Black" size="13.0" /></font>
       </Button>
 
-      <Button fx:id="btnEliminar" layoutX="585.0" layoutY="342.0" mnemonicParsing="false" onAction="#eliminarPaciente" text="Eliminar" textFill="#f20c0c">
+      <Button fx:id="btnEliminar" layoutX="591.0" layoutY="309.0" mnemonicParsing="false" onAction="#eliminarPaciente" text="Eliminar" textFill="#f20c0c">
          <font><Font name="Arial Black" size="12.0" /></font>
       </Button>
 
-      <Button fx:id="btnVerExpediente" layoutX="572.0" layoutY="389.0" mnemonicParsing="false" onAction="#abrirTerceraVentana" text="Ver expediente" textFill="#0518ff">
+      <Button fx:id="btnVerExpediente" layoutX="571.0" layoutY="361.0" mnemonicParsing="false" onAction="#abrirTerceraVentana" text="Ver expediente" textFill="#0518ff">
          <font><Font name="Arial Black" size="12.0" /></font>
       </Button>
 
@@ -95,5 +95,10 @@
       <Line endX="-120.6568603515625" endY="481.82843017578125" layoutX="142.0" layoutY="33.0" startX="-114.0" startY="-10.0" stroke="#69ffa9" strokeWidth="8.0" />
       <Line endX="-114.3431396484375" endY="457.3431396484375" layoutX="837.0" layoutY="51.0" startX="-114.0" startY="-28.0" stroke="#69ffa9" strokeWidth="8.0" />
       <Line endX="592.828369140625" layoutX="130.0" layoutY="514.0" startX="-103.0" startY="1.6568603515625" stroke="#69ffa9" strokeWidth="8.0" />
+      <Button fx:id="btnRegresarprimeraventana" layoutX="589.0" layoutY="460.0" mnemonicParsing="false" onAction="#regresarAprimeraventana" text="Regresar" textFill="#0518ff">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
