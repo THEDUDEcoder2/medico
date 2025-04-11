@@ -2,16 +2,23 @@ package com.example.medico.modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class SharedData {
+public class SharedData implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static SharedData instance;
     private Doctor doctorActual;
+    private final ObservableList<Doctor> doctores = FXCollections.observableArrayList();
     private final ObservableList<Pacientes> pacientes = FXCollections.observableArrayList();
+    private static final String ARCHIVO_DATOS = "datos_medico.ser";
 
-
-    private SharedData() {}
-
+    // Singleton
+    private SharedData() {
+        cargarDatos();
+    }
 
     public static synchronized SharedData getInstance() {
         if (instance == null) {
@@ -20,79 +27,92 @@ public class SharedData {
         return instance;
     }
 
+    // Métodos para Doctores
+    public void agregarDoctor(Doctor doctor) {
+        if (doctor != null && !existeDoctor(doctor.getCedula())) {
+            doctores.add(doctor);
+            guardarDatos();
+        }
+    }
 
+    public Doctor buscarDoctorPorCedula(String cedula) {
+        return doctores.stream()
+                .filter(d -> d.getCedula().equals(cedula))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public ObservableList<Doctor> getTodosLosDoctores() {
+        return FXCollections.unmodifiableObservableList(doctores);
+    }
+
+    // Métodos para Pacientes
+    public void agregarPaciente(Pacientes paciente) {
+        if (paciente != null && !existePaciente(paciente.getNumeroSeguro())) {
+            pacientes.add(paciente);
+            guardarDatos();
+        }
+    }
+
+    public ObservableList<Pacientes> getTodosLosPacientes() {
+        return FXCollections.unmodifiableObservableList(pacientes);
+    }
+
+    public ObservableList<Pacientes> buscarPacientes(String criterio) {
+        String busqueda = criterio.toLowerCase();
+        return pacientes.stream()
+                .filter(p -> p.getNombre().toLowerCase().contains(busqueda) ||
+                        p.getNumeroSeguro().contains(busqueda))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    }
+
+    // Persistencia (Serialización binaria)
+    private void guardarDatos() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream(ARCHIVO_DATOS))) {
+
+            oos.writeObject(new ArrayList<>(doctores));
+            oos.writeObject(new ArrayList<>(pacientes));
+
+        } catch (IOException e) {
+            System.err.println("Error al guardar datos: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void cargarDatos() {
+        File file = new File(ARCHIVO_DATOS);
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(
+                    new FileInputStream(file))) {
+
+                List<Doctor> doctoresCargados = (List<Doctor>) ois.readObject();
+                List<Pacientes> pacientesCargados = (List<Pacientes>) ois.readObject();
+
+                doctores.setAll(doctoresCargados);
+                pacientes.setAll(pacientesCargados);
+
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Error al cargar datos: " + e.getMessage());
+            }
+        }
+    }
+
+    // Helpers
+    private boolean existeDoctor(String cedula) {
+        return doctores.stream().anyMatch(d -> d.getCedula().equals(cedula));
+    }
+
+    public boolean existePaciente(String numeroSeguro) {
+        return pacientes.stream().anyMatch(p -> p.getNumeroSeguro().equals(numeroSeguro));
+    }
+
+    // Getters/Setters
     public Doctor getDoctorActual() {
         return doctorActual;
     }
 
     public void setDoctorActual(Doctor doctor) {
         this.doctorActual = doctor;
-    }
-
-
-    public ObservableList<Pacientes> getTodosLosPacientes() {
-        return FXCollections.unmodifiableObservableList(pacientes);
-    }
-
-    public void agregarPaciente(Pacientes paciente) {
-        if (paciente != null && !existePaciente(paciente)) {
-            pacientes.add(paciente);
-        }
-    }
-
-    public boolean eliminarPaciente(Pacientes paciente) {
-        if (paciente == null) return false;
-        return pacientes.remove(paciente);
-    }
-
-
-    public Pacientes buscarPorNombre(String nombre) {
-        if (nombre == null || nombre.trim().isEmpty()) return null;
-
-        return pacientes.stream()
-                .filter(p -> p.getNombre() != null &&
-                        p.getNombre().equalsIgnoreCase(nombre.trim()))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public Pacientes buscarPorNumeroSeguro(String numeroSeguro) {
-        if (numeroSeguro == null || numeroSeguro.trim().isEmpty()) return null;
-
-        return pacientes.stream()
-                .filter(p -> p.getNumeroSeguro() != null &&
-                        p.getNumeroSeguro().equals(numeroSeguro.trim()))
-                .findFirst()
-                .orElse(null);
-    }
-
-
-    private boolean existePaciente(Pacientes paciente) {
-        if (paciente == null) return false;
-        return pacientes.stream()
-                .anyMatch(p -> p.getNumeroSeguro() != null &&
-                        p.getNumeroSeguro().equals(paciente.getNumeroSeguro()));
-    }
-
-    public void limpiarDatos() {
-        doctorActual = null;
-        pacientes.clear();
-    }
-
-
-    public int cantidadPacientes() {
-        return pacientes.size();
-    }
-
-    public ObservableList<Pacientes> buscarPacientes(String criterio) {
-        if (criterio == null || criterio.trim().isEmpty()) {
-            return FXCollections.observableArrayList(pacientes);
-        }
-
-        String busqueda = criterio.trim().toLowerCase();
-        return pacientes.stream()
-                .filter(p -> (p.getNombre() != null && p.getNombre().toLowerCase().contains(busqueda)) ||
-                        (p.getNumeroSeguro() != null && p.getNumeroSeguro().contains(busqueda)))
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 }

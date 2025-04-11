@@ -43,7 +43,12 @@ public class segundaVentanaController {
         comboTipoSangre.getItems().addAll("O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-");
         txtEspecialidad.setText(sharedData.getDoctorActual().getEspecialidad());
         txtEspecialidad.setEditable(false);
-
+txtNombre.setDisable(true);
+txtFechaNacimiento.setDisable(true);
+txtDomicilio.setDisable(true);
+txtTelefono.setDisable(true);
+txtNumeroSeguro.setDisable(true);
+comboTipoSangre.setDisable(true);
         configurarTabla();
         configurarBusqueda();
 
@@ -103,6 +108,12 @@ public class segundaVentanaController {
             }
 
             limpiarCampos();
+            txtNombre.setDisable(true);
+            txtFechaNacimiento.setDisable(true);
+            txtDomicilio.setDisable(true);
+            txtTelefono.setDisable(true);
+            txtNumeroSeguro.setDisable(true);
+            comboTipoSangre.setDisable(true);
         } catch (Exception e) {
             mostrarAlerta("Error", e.getMessage());
         }
@@ -110,17 +121,18 @@ public class segundaVentanaController {
 
     @FXML
     private void editarPaciente(ActionEvent event) {
-        if (pacienteSeleccionado != null) {
-            cargarDatosFormulario(pacienteSeleccionado);
-        } else {
-            mostrarAlerta("Error", "Seleccione un paciente para editar");
-        }
+txtNombre.setDisable(false);
+txtTelefono.setDisable(false);
+txtFechaNacimiento.setDisable(false);
+txtDomicilio.setDisable(false);
+txtNumeroSeguro.setDisable(false);
+comboTipoSangre.setDisable(false);
     }
 
     @FXML
     private void eliminarPaciente(ActionEvent event) {
         if (pacienteSeleccionado != null) {
-            sharedData.eliminarPaciente(pacienteSeleccionado);
+            sharedData.existePaciente(String.valueOf(pacienteSeleccionado));
             limpiarCampos();
         } else {
             mostrarAlerta("Error", "Seleccione un paciente para eliminar");
