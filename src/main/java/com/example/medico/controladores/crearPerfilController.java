@@ -54,6 +54,7 @@ public class crearPerfilController {
         }
 
         Doctor nuevoDoctor = new Doctor(nombre, cedula, especialidad, contraseña);
+        sharedData.agregarDoctor(nuevoDoctor);
         sharedData.setDoctorActual(nuevoDoctor);
         mostrarAlerta("Exito", "Perfil creado correctamente");
 

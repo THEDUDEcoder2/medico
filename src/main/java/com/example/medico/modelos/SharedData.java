@@ -27,11 +27,10 @@ public class SharedData implements Serializable {
         return instance;
     }
 
-    // Métodos para Doctores
+    // Verificar que tienes estos métodos:
     public void agregarDoctor(Doctor doctor) {
-        if (doctor != null && !existeDoctor(doctor.getCedula())) {
+        if (doctor != null && !existeDoctor(doctor)) {
             doctores.add(doctor);
-            guardarDatos();
         }
     }
 
@@ -41,7 +40,6 @@ public class SharedData implements Serializable {
                 .findFirst()
                 .orElse(null);
     }
-
     public ObservableList<Doctor> getTodosLosDoctores() {
         return FXCollections.unmodifiableObservableList(doctores);
     }
@@ -99,7 +97,7 @@ public class SharedData implements Serializable {
     }
 
     // Helpers
-    private boolean existeDoctor(String cedula) {
+    private boolean existeDoctor(Doctor cedula) {
         return doctores.stream().anyMatch(d -> d.getCedula().equals(cedula));
     }
 

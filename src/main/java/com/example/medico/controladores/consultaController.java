@@ -1,5 +1,6 @@
 package com.example.medico.controladores;
 
+import com.example.medico.modelos.Doctor;
 import com.example.medico.modelos.SharedData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,28 +19,29 @@ public class consultaController {
     @FXML private TextField TxtCedulaProfesional;
     @FXML private TextField TxtContraseña;
 
+    // Modificar completamente el método IniciarSesion() para que quede así:
     @FXML
     void IniciarSesion(ActionEvent event) throws IOException {
         String cedula = TxtCedulaProfesional.getText();
         String contraseña = TxtContraseña.getText();
         SharedData sharedData = SharedData.getInstance();
 
-        if (sharedData.getDoctorActual() == null) {
-            mostrarAlerta("Error", "No hay perfiles registrados. Cree un perfil primero.");
+        // Buscar el doctor en la lista por cédula
+        Doctor doctor = sharedData.buscarDoctorPorCedula(cedula);
+
+        if (doctor == null) {
+            mostrarAlerta("Error", "Cédula profesional no encontrada");
             return;
         }
 
-        if (sharedData.getDoctorActual().getCedula().equals(cedula)) {
-            if (sharedData.getDoctorActual().getContraseña().equals(contraseña)) {
-                cargarVentana(
-                        "/com/example/medico/views/segunda ventana.fxml",
-                        "Gestión de Pacientes"
-                );
-            } else {
-                mostrarAlerta("Error", "Contraseña incorrecta");
-            }
+        if (doctor.getContraseña().equals(contraseña)) {
+            sharedData.setDoctorActual(doctor); // Establecer como doctor actual
+            cargarVentana(
+                    "/com/example/medico/views/segunda ventana.fxml",
+                    "Gestión de Pacientes"
+            );
         } else {
-            mostrarAlerta("Error", "Cedula profesional no encontrada");
+            mostrarAlerta("Error", "Contraseña incorrecta");
         }
     }
 
