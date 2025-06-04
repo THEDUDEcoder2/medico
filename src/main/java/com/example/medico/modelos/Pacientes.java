@@ -5,6 +5,13 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+@Entity
+@Table( name = "Pacientes" )
 public class Pacientes{
     private final StringProperty nombre = new SimpleStringProperty();
     private final StringProperty fechaNacimiento = new SimpleStringProperty();
@@ -35,6 +42,9 @@ public class Pacientes{
         consultas.add(consulta);
     }
 
+    @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
 
     public StringProperty nombreProperty() { return nombre; }
     public StringProperty fechaNacimientoProperty() { return fechaNacimiento; }

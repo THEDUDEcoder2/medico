@@ -1,5 +1,11 @@
 package com.example.medico.modelos;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+@Entity
+@Table( name = "Doctores" )
 public class Doctor {
     private String nombre;
     private String cedula;
@@ -13,7 +19,9 @@ public class Doctor {
         this.contraseña = contraseña;
     }
 
-
+    @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     public String getNombre() { return nombre; }
     public String getCedula() { return cedula; }
     public String getEspecialidad() { return especialidad; }

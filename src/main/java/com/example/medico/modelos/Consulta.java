@@ -2,7 +2,14 @@ package com.example.medico.modelos;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 
+@Entity
+@Table( name = "Consultas" )
 public class Consulta {
     private String paciente;
     private LocalDate fecha;
@@ -43,7 +50,9 @@ public class Consulta {
         this.sintomas = sintomas;
         this.observaciones = observaciones;
     }
-
+    @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
 
     public String getPaciente() { return paciente; }
     public LocalDate getFecha() { return fecha; }
