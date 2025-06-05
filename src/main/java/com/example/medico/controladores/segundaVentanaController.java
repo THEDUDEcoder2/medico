@@ -3,6 +3,7 @@ package com.example.medico.controladores;
 import com.example.medico.modelos.Pacientes;
 import com.example.medico.modelos.SharedData;
 
+import com.example.medico.services.Pacientesservices;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -105,6 +106,8 @@ comboTipoSangre.setDisable(true);
                 actualizarPaciente(pacienteSeleccionado);
             } else {
                 sharedData.agregarPaciente(paciente);
+                Pacientesservices pacientesservices = new Pacientesservices();
+                pacientesservices.addpaciente(paciente);
             }
 
             limpiarCampos();
@@ -133,6 +136,7 @@ comboTipoSangre.setDisable(false);
     private void eliminarPaciente(ActionEvent event) {
         if (pacienteSeleccionado != null) {
             sharedData.existePaciente(String.valueOf(pacienteSeleccionado));
+
             limpiarCampos();
         } else {
             mostrarAlerta("Error", "Seleccione un paciente para eliminar");
@@ -155,6 +159,7 @@ comboTipoSangre.setDisable(false);
                     pacienteSeleccionado,
                     txtEspecialidad.getText(),
                     sharedData.getDoctorActual().getNombre()
+
             );
 
             Stage stage = new Stage();

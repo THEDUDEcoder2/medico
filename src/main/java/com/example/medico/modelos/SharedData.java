@@ -15,7 +15,7 @@ public class SharedData implements Serializable {
     private final ObservableList<Pacientes> pacientes = FXCollections.observableArrayList();
     private static final String ARCHIVO_DATOS = "datos_medico.ser";
 
-    // Singleton
+
     private SharedData() {
         cargarDatos();
     }
@@ -27,7 +27,7 @@ public class SharedData implements Serializable {
         return instance;
     }
 
-    // Verificar que tienes estos métodos:
+
     public void agregarDoctor(Doctor doctor) {
         if (doctor != null && !existeDoctor(doctor)) {
             doctores.add(doctor);
@@ -44,7 +44,7 @@ public class SharedData implements Serializable {
         return FXCollections.unmodifiableObservableList(doctores);
     }
 
-    // Métodos para Pacientes
+
     public void agregarPaciente(Pacientes paciente) {
         if (paciente != null && !existePaciente(paciente.getNumeroSeguro())) {
             pacientes.add(paciente);
@@ -64,7 +64,7 @@ public class SharedData implements Serializable {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
-    // Persistencia (Serialización binaria)
+
     private void guardarDatos() {
         try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream(ARCHIVO_DATOS))) {
@@ -96,7 +96,7 @@ public class SharedData implements Serializable {
         }
     }
 
-    // Helpers
+
     private boolean existeDoctor(Doctor cedula) {
         return doctores.stream().anyMatch(d -> d.getCedula().equals(cedula));
     }
@@ -105,7 +105,7 @@ public class SharedData implements Serializable {
         return pacientes.stream().anyMatch(p -> p.getNumeroSeguro().equals(numeroSeguro));
     }
 
-    // Getters/Setters
+
     public Doctor getDoctorActual() {
         return doctorActual;
     }

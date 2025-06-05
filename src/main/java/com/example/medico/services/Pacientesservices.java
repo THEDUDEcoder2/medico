@@ -12,7 +12,7 @@ public class Pacientesservices {
 
     }
 
-    public void addUser(Pacientes pacientes) {
+    public void addpaciente(Pacientes pacientes) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
