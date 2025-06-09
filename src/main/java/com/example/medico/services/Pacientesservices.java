@@ -21,7 +21,7 @@ public class Pacientesservices {
         entityManager.close();
     }
 
-    public List<Pacientes> getAllUsers() {
+    public List<Pacientes> getAllpaciente() {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Pacientes> result = entityManager.createQuery( "from Usuario", Pacientes.class ).getResultList();
@@ -29,14 +29,14 @@ public class Pacientesservices {
         return result;
     }
 
-    public Pacientes getUserByID(int id) {
+    public Pacientes getpacienteByID(int id) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Pacientes pacientes = entityManager.find(Pacientes.class, id);
         return pacientes;
     }
 
-    public void updateUser(Pacientes pacientes) {
+    public void updatepaciente(Pacientes pacientes) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -45,7 +45,7 @@ public class Pacientesservices {
         entityManager.close();
     }
 
-    public void removeUse(Pacientes pacientes) {
+    public void removepaciente(Pacientes pacientes) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();

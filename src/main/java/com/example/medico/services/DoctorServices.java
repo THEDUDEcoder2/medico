@@ -1,6 +1,7 @@
 package com.example.medico.services;
 
 import com.example.medico.Utils.HibernateUtils;
+import com.example.medico.modelos.Doctor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -11,16 +12,15 @@ public class DoctorServices {
 
     }
 
-    public void addUser(DoctorServices doctor ) {
+    public void addDoctor(Doctor doctor ) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(doctor);
         entityManager.getTransaction().commit();
-        entityManager.close();
     }
 
-    public List<DoctorServices> getAllUsers() {
+    public List<DoctorServices> getAllDoctor() {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<DoctorServices> result = entityManager.createQuery( "from Usuario", DoctorServices.class ).getResultList();
@@ -28,14 +28,14 @@ public class DoctorServices {
         return result;
     }
 
-    public DoctorServices getUserByID(int id) {
+    public DoctorServices getDoctorByID(int id) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         DoctorServices doctor = entityManager.find(DoctorServices.class, id);
         return doctor;
     }
 
-    public void updateUser(DoctorServices doctor) {
+    public void updateDoctor(DoctorServices doctor) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -44,7 +44,7 @@ public class DoctorServices {
         entityManager.close();
     }
 
-    public void removeUser(DoctorServices doctor) {
+    public void removeDoctor(DoctorServices doctor) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();

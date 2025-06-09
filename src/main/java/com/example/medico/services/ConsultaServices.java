@@ -1,6 +1,7 @@
 package com.example.medico.services;
 
 import com.example.medico.Utils.HibernateUtils;
+import com.example.medico.modelos.Consulta;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -11,7 +12,7 @@ public class ConsultaServices {
 
     }
 
-    public void addUser(ConsultaServices consulta ) {
+    public void addConsulta(Consulta consulta ) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -20,7 +21,7 @@ public class ConsultaServices {
         entityManager.close();
     }
 
-    public List<ConsultaServices> getAllUsers() {
+    public List<ConsultaServices> getAllConsulta() {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<ConsultaServices> result = entityManager.createQuery( "from Usuario", ConsultaServices.class ).getResultList();
@@ -28,14 +29,14 @@ public class ConsultaServices {
         return result;
     }
 
-    public ConsultaServices getUserByID(int id) {
+    public ConsultaServices getConsultaByID(int id) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         ConsultaServices consulta = entityManager.find(ConsultaServices.class, id);
         return consulta;
     }
 
-    public void updateUser(ConsultaServices consulta) {
+    public void updateConsulta(ConsultaServices consulta) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -44,7 +45,7 @@ public class ConsultaServices {
         entityManager.close();
     }
 
-    public void removeUser(ConsultaServices consulta) {
+    public void removeConsulta(ConsultaServices consulta) {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();

@@ -2,6 +2,8 @@ package com.example.medico.controladores;
 
 import com.example.medico.modelos.Doctor;
 import com.example.medico.modelos.SharedData;
+import com.example.medico.services.ConsultaServices;
+import com.example.medico.services.DoctorServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,10 +58,13 @@ public class crearPerfilController {
         Doctor nuevoDoctor = new Doctor(nombre, cedula, especialidad, contraseña);
         sharedData.agregarDoctor(nuevoDoctor);
         sharedData.setDoctorActual(nuevoDoctor);
+
         mostrarAlerta("Exito", "Perfil creado correctamente");
 
         cerrarVentana();
         abrirVentanaPrincipal();
+        DoctorServices doctorServices = new DoctorServices();
+        doctorServices.addDoctor(nuevoDoctor);
     }
 
     @FXML
