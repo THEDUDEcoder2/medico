@@ -19,7 +19,7 @@ public class Pacientes{
     private final StringProperty numeroSeguro = new SimpleStringProperty();
     private final StringProperty telefono = new SimpleStringProperty();
     private final StringProperty tipoSangre = new SimpleStringProperty();
-    private final ObservableList<Consulta> consultas = FXCollections.observableArrayList();
+//    private final ObservableList<Consulta> consultas = FXCollections.observableArrayList();
 
     public Pacientes() {}
 
@@ -34,17 +34,15 @@ public class Pacientes{
     }
 
 
-    public ObservableList<Consulta> getConsultas() {
-        return consultas;
-    }
+//    public ObservableList<Consulta> getConsultas() {
+//        return null;
+//    }
 
     public void agregarConsulta(Consulta consulta) {
-        consultas.add(consulta);
+//        consultas.add(consulta);
     }
 
-    @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
+
 
     public StringProperty nombreProperty() { return nombre; }
     public StringProperty fechaNacimientoProperty() { return fechaNacimiento; }
@@ -53,6 +51,9 @@ public class Pacientes{
     public StringProperty telefonoProperty() { return telefono; }
     public StringProperty tipoSangreProperty() { return tipoSangre; }
 
+    @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
 
     public String getNombre() { return nombre.get(); }
     public String getFechaNacimiento() { return fechaNacimiento.get(); }

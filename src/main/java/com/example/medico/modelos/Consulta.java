@@ -8,8 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
-@Table( name = "Consultas" )
+//@Entity
+//@Table( name = "consultas" )
 public class Consulta {
     private String paciente;
     private LocalDate fecha;
@@ -50,10 +50,9 @@ public class Consulta {
         this.sintomas = sintomas;
         this.observaciones = observaciones;
     }
-    @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
-
+//    @Id
+//    @GeneratedValue(generator="increment")
+//    @GenericGenerator(name="increment", strategy = "increment")
     public String getPaciente() { return paciente; }
     public LocalDate getFecha() { return fecha; }
     public LocalTime getHora() { return hora; }

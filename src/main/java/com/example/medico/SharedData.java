@@ -1,5 +1,7 @@
-package com.example.medico.modelos;
+package com.example.medico;
 
+import com.example.medico.modelos.Doctor;
+import com.example.medico.modelos.Pacientes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.io.*;

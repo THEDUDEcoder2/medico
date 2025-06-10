@@ -1,7 +1,7 @@
 package com.example.medico.controladores;
 
 import com.example.medico.modelos.Doctor;
-import com.example.medico.modelos.SharedData;
+import com.example.medico.SharedData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

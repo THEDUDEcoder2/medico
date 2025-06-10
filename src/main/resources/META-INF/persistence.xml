@@ -2,16 +2,18 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
-    <persistence-unit name="com.ites.proyectotemplate">
+    <persistence-unit name="com.example.medico">
         <description>Proyecto template ejemplo</description>
-        <class>com.ites.proyectotemplate.models.Usuario</class>
+        <class>com.example.medico.modelos.Consulta</class>
+        <class>com.example.medico.modelos.Pacientes</class>
+        <class>com.example.medico.modelos.Doctor</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/consultorio"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value="Mislentes"/>
+            <property name="javax.persistence.jdbc.password" value="epc1106"/>
         </properties>
     </persistence-unit>
 </persistence>

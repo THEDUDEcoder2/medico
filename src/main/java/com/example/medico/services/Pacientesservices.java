@@ -8,7 +8,7 @@ import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 
 public class Pacientesservices {
-    public void Pacientesservice() {
+    public Pacientesservices() {
 
     }
 

@@ -2,9 +2,8 @@ package com.example.medico.controladores;
 
 import com.example.medico.modelos.Consulta;
 import com.example.medico.modelos.Pacientes;
-import com.example.medico.modelos.SharedData;
+import com.example.medico.SharedData;
 import com.example.medico.services.ConsultaServices;
-import com.example.medico.services.Pacientesservices;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -67,12 +66,11 @@ public class terceraVentanaController {
         txtFechaNacimiento.setText(paciente.getFechaNacimiento());
         txtEspecialista.setText(
                 sharedData.getDoctorActual().getNombre() + " - " +
-                        sharedData.getDoctorActual().getEspecialidad();
-                ConsultaServices consultaServices = new ConsultaServices();
-                consultaServices.addConsulta(Consulta);
-        )
+                        sharedData.getDoctorActual().getEspecialidad()
+        );
+
         bloquearCamposPaciente();
-        historial.setAll(paciente.getConsultas());
+//        historial.setAll(paciente.getConsultas());
     }
 
     private void configurarTabla() {
@@ -122,6 +120,8 @@ public class terceraVentanaController {
             } else {
                 paciente.agregarConsulta(consulta);
                 historial.add(consulta);
+                ConsultaServices ConsultaServices = new ConsultaServices();
+                ConsultaServices.addConsulta(consulta);
 
             }
 

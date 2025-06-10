@@ -1,7 +1,7 @@
 package com.example.medico.controladores;
 
 import com.example.medico.modelos.Pacientes;
-import com.example.medico.modelos.SharedData;
+import com.example.medico.SharedData;
 
 import com.example.medico.services.Pacientesservices;
 import javafx.collections.transformation.FilteredList;
@@ -106,8 +106,8 @@ comboTipoSangre.setDisable(true);
                 actualizarPaciente(pacienteSeleccionado);
             } else {
                 sharedData.agregarPaciente(paciente);
-                Pacientesservices pacientesservices = new Pacientesservices();
-                pacientesservices.addpaciente(paciente);
+                Pacientesservices Pacientesservices = new Pacientesservices();
+                Pacientesservices.addpaciente(paciente);
             }
 
             limpiarCampos();
