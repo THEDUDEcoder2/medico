@@ -1,15 +1,15 @@
 package com.example.medico.modelos;
 
+import jakarta.persistence.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.List;
+
 @Entity
 @Table( name = "Pacientes" )
 public class Pacientes{
@@ -18,8 +18,7 @@ public class Pacientes{
     private final StringProperty domicilio = new SimpleStringProperty();
     private final StringProperty numeroSeguro = new SimpleStringProperty();
     private final StringProperty telefono = new SimpleStringProperty();
-    private final StringProperty tipoSangre = new SimpleStringProperty();
-//    private final ObservableList<Consulta> consultas = FXCollections.observableArrayList();
+    private final StringProperty tipoSangre = new SimpleStringProperty();private final ObservableList<Consulta> consultas = FXCollections.observableArrayList();
 
     public Pacientes() {}
 
@@ -34,12 +33,12 @@ public class Pacientes{
     }
 
 
-//    public ObservableList<Consulta> getConsultas() {
-//        return null;
-//    }
-
+public List<Consulta> getConsultas() {
+       return null;
+   }
+@ManyToOne
     public void agregarConsulta(Consulta consulta) {
-//        consultas.add(consulta);
+   consultas.add(consulta);
     }
 
 
