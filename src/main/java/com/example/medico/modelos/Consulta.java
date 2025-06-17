@@ -2,15 +2,17 @@ package com.example.medico.modelos;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-//@Entity
-//@Table( name = "consultas" )
+@Entity
+@Table(name = "consultas")
 public class Consulta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String paciente;
     private LocalDate fecha;
     private LocalTime hora;
@@ -27,6 +29,11 @@ public class Consulta {
     private String receta;
     private String sintomas;
     private String observaciones;
+
+    @ManyToMany(mappedBy = "consultas")
+    private Set<Pacientes> pacientes = new HashSet<>();
+
+    public Consulta() {}
 
     public Consulta(String paciente, LocalDate fecha, LocalTime hora,
                     String especialista, String motivo, String diagnostico,
@@ -50,43 +57,44 @@ public class Consulta {
         this.sintomas = sintomas;
         this.observaciones = observaciones;
     }
-//    @Id
-//    @GeneratedValue(generator="increment")
-//    @GenericGenerator(name="increment", strategy = "increment")
+
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public String getPaciente() { return paciente; }
-    public LocalDate getFecha() { return fecha; }
-    public LocalTime getHora() { return hora; }
-    public String getEspecialista() { return especialista; }
-    public String getMotivo() { return motivo; }
-    public String getDiagnostico() { return diagnostico; }
-    public String getFechaNacimiento() { return fechaNacimiento; }
-    public String getPulsaciones() { return pulsaciones; }
-    public String getTemperatura() { return temperatura; }
-    public String getAlergias() { return alergias; }
-    public String getPeso() { return peso; }
-    public String getAltura() { return altura; }
-    public String getPresionArterial() { return presionArterial; }
-    public String getReceta() { return receta; }
-    public String getSintomas() { return sintomas; }
-    public String getObservaciones() { return observaciones; }
-
-
     public void setPaciente(String paciente) { this.paciente = paciente; }
+    public LocalDate getFecha() { return fecha; }
     public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public LocalTime getHora() { return hora; }
     public void setHora(LocalTime hora) { this.hora = hora; }
+    public String getEspecialista() { return especialista; }
     public void setEspecialista(String especialista) { this.especialista = especialista; }
+    public String getMotivo() { return motivo; }
     public void setMotivo(String motivo) { this.motivo = motivo; }
+    public String getDiagnostico() { return diagnostico; }
     public void setDiagnostico(String diagnostico) { this.diagnostico = diagnostico; }
+    public String getFechaNacimiento() { return fechaNacimiento; }
     public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public String getPulsaciones() { return pulsaciones; }
     public void setPulsaciones(String pulsaciones) { this.pulsaciones = pulsaciones; }
+    public String getTemperatura() { return temperatura; }
     public void setTemperatura(String temperatura) { this.temperatura = temperatura; }
+    public String getAlergias() { return alergias; }
     public void setAlergias(String alergias) { this.alergias = alergias; }
+    public String getPeso() { return peso; }
     public void setPeso(String peso) { this.peso = peso; }
+    public String getAltura() { return altura; }
     public void setAltura(String altura) { this.altura = altura; }
+    public String getPresionArterial() { return presionArterial; }
     public void setPresionArterial(String presionArterial) { this.presionArterial = presionArterial; }
+    public String getReceta() { return receta; }
     public void setReceta(String receta) { this.receta = receta; }
+    public String getSintomas() { return sintomas; }
     public void setSintomas(String sintomas) { this.sintomas = sintomas; }
+    public String getObservaciones() { return observaciones; }
     public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
+    public Set<Pacientes> getPacientes() { return pacientes; }
+    public void setPacientes(Set<Pacientes> pacientes) { this.pacientes = pacientes; }
 
     @Override
     public String toString() {

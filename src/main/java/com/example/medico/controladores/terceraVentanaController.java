@@ -52,6 +52,7 @@ public class terceraVentanaController {
     private Pacientes paciente;
     private final DateTimeFormatter fechaFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private ConsultaServices consulta;
 
     @FXML
     public void initialize() {
@@ -70,7 +71,7 @@ public class terceraVentanaController {
         );
 
         bloquearCamposPaciente();
-//        historial.setAll(paciente.getConsultas());
+  //  historial.setAll(paciente.getConsultas());
     }
 
     private void configurarTabla() {
@@ -185,6 +186,8 @@ public class terceraVentanaController {
         consultaSeleccionada.setObservaciones(nuevaConsulta.getObservaciones());
         consultaSeleccionada.setReceta(nuevaConsulta.getReceta());
         tablaConsultas.refresh();
+        ConsultaServices ConsultaServices = new ConsultaServices();
+        ConsultaServices.updateConsulta(consulta);
     }
 
     private void nuevaConsulta() {
