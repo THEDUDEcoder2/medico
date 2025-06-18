@@ -1,71 +1,119 @@
 package com.example.medico.modelos;
 
 import jakarta.persistence.*;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table( name = "Pacientes" )
-public class Pacientes{
-    private final StringProperty nombre = new SimpleStringProperty();
-    private final StringProperty fechaNacimiento = new SimpleStringProperty();
-    private final StringProperty domicilio = new SimpleStringProperty();
-    private final StringProperty numeroSeguro = new SimpleStringProperty();
-    private final StringProperty telefono = new SimpleStringProperty();
-    private final StringProperty tipoSangre = new SimpleStringProperty();private final ObservableList<Consulta> consultas = FXCollections.observableArrayList();
-
-    public Pacientes() {}
-
-    public Pacientes(String nombre, String fechaNacimiento, String domicilio,
-                    String numeroSeguro, String telefono, String tipoSangre) {
-        this.nombre.set(nombre);
-        this.fechaNacimiento.set(fechaNacimiento);
-        this.domicilio.set(domicilio);
-        this.numeroSeguro.set(numeroSeguro);
-        this.telefono.set(telefono);
-        this.tipoSangre.set(tipoSangre);
-    }
-
-
-public List<Consulta> getConsultas() {
-       return null;
-   }
-@ManyToOne
-    public void agregarConsulta(Consulta consulta) {
-   consultas.add(consulta);
-    }
-
-
-
-    public StringProperty nombreProperty() { return nombre; }
-    public StringProperty fechaNacimientoProperty() { return fechaNacimiento; }
-    public StringProperty domicilioProperty() { return domicilio; }
-    public StringProperty numeroSeguroProperty() { return numeroSeguro; }
-    public StringProperty telefonoProperty() { return telefono; }
-    public StringProperty tipoSangreProperty() { return tipoSangre; }
+@Table(name = "Pacientes")
+public class Pacientes {
 
     @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public String getNombre() { return nombre.get(); }
-    public String getFechaNacimiento() { return fechaNacimiento.get(); }
-    public String getDomicilio() { return domicilio.get(); }
-    public String getNumeroSeguro() { return numeroSeguro.get(); }
-    public String getTelefono() { return telefono.get(); }
-    public String getTipoSangre() { return tipoSangre.get(); }
+    private String nombre;
+    private String fechaNacimiento;
+    private String domicilio;
+    private String numeroSeguro;
+    private String telefono;
+    private String tipoSangre;
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "paciente_consulta",
+            joinColumns = { @JoinColumn(name = "paciente_id") },
+            inverseJoinColumns = { @JoinColumn(name = "consulta_id") }
+    )
+    private Set<Consulta> consultas = new HashSet<>();
 
-    public void setNombre(String nombre) { this.nombre.set(nombre); }
-    public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento.set(fechaNacimiento); }
-    public void setDomicilio(String domicilio) { this.domicilio.set(domicilio); }
-    public void setNumeroSeguro(String numeroSeguro) { this.numeroSeguro.set(numeroSeguro); }
-    public void setTelefono(String telefono) { this.telefono.set(telefono); }
-    public void setTipoSangre(String tipoSangre) { this.tipoSangre.set(tipoSangre); }
+    // Constructor vacío
+    public Pacientes() {}
+
+    // Constructor completo
+    public Pacientes(String nombre, String fechaNacimiento, String domicilio,
+                     String numeroSeguro, String telefono, String tipoSangre) {
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.domicilio = domicilio;
+        this.numeroSeguro = numeroSeguro;
+        this.telefono = telefono;
+        this.tipoSangre = tipoSangre;
+    }
+
+    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public String getNumeroSeguro() {
+        return numeroSeguro;
+    }
+
+    public void setNumeroSeguro(String numeroSeguro) {
+        this.numeroSeguro = numeroSeguro;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getTipoSangre() {
+        return tipoSangre;
+    }
+
+    public void setTipoSangre(String tipoSangre) {
+        this.tipoSangre = tipoSangre;
+    }
+
+    // Métodos para manejar la relación con Consulta
+    public Set<Consulta> getConsultas() {
+        return consultas;
+    }
+
+    public void setConsultas(Set<Consulta> consultas) {
+        this.consultas = consultas;
+    }
+
+    public void agregarConsulta(Consulta consulta) {
+        this.consultas.add(consulta);
+        consulta.getPacientes().add(this);
+    }
+
+    public void removerConsulta(Consulta consulta) {
+        this.consultas.remove(consulta);
+        consulta.getPacientes().remove(this);
+    }
 }

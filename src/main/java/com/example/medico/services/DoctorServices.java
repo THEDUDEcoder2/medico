@@ -23,7 +23,7 @@ public class DoctorServices {
     public List<DoctorServices> getAllDoctor() {
         EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<DoctorServices> result = entityManager.createQuery( "from Usuario", DoctorServices.class ).getResultList();
+        List<DoctorServices> result = entityManager.createQuery( "from doctor", DoctorServices.class ).getResultList();
         entityManager.close();
         return result;
     }
