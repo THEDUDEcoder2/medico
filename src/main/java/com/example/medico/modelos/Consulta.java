@@ -12,7 +12,7 @@ public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+//hola
     private String paciente;
     private LocalDate fecha;
     private LocalTime hora;
