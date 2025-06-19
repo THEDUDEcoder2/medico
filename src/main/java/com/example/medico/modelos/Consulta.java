@@ -10,8 +10,7 @@ import java.util.Set;
 @Table(name = "consultas")
 public class Consulta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     private String paciente;
@@ -31,7 +30,7 @@ public class Consulta {
     private String sintomas;
     private String observaciones;
 
-    @ManyToMany(mappedBy = "consultas")
+
     private Set<Pacientes> pacientes = new HashSet<>();
 
     // Constructor vacío
@@ -62,6 +61,8 @@ public class Consulta {
     }
 
     // Getters y Setters
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -112,7 +113,7 @@ public class Consulta {
 
     public String getObservaciones() { return observaciones; }
     public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
-
+    @ManyToMany(mappedBy = "consultas")
     public Set<Pacientes> getPacientes() { return pacientes; }
     public void setPacientes(Set<Pacientes> pacientes) { this.pacientes = pacientes; }
 
