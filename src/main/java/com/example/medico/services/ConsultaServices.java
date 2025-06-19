@@ -8,7 +8,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
-public class ConsultaServices {
+public class  ConsultaServices {
     private EntityManagerFactory entityManagerFactory;
 
     public ConsultaServices() {
