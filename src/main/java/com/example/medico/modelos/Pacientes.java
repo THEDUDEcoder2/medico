@@ -17,12 +17,12 @@ public class Pacientes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private final StringProperty nombre = new SimpleStringProperty();
-    private final StringProperty fechaNacimiento = new SimpleStringProperty();
-    private final StringProperty domicilio = new SimpleStringProperty();
-    private final StringProperty numeroSeguro = new SimpleStringProperty();
-    private final StringProperty telefono = new SimpleStringProperty();
-    private final StringProperty tipoSangre = new SimpleStringProperty();
+    private  String nombre;
+    private  String fechaNacimiento;
+    private  String domicilio;
+    private  String numeroSeguro;
+    private  String telefono;
+    private  String tipoSangre ;
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
