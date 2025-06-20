@@ -19,14 +19,14 @@ public class consultaController {
     @FXML private TextField TxtCedulaProfesional;
     @FXML private TextField TxtContraseña;
 
-    // Modificar completamente el método IniciarSesion() para que quede así:
+
     @FXML
     void IniciarSesion(ActionEvent event) throws IOException {
         String cedula = TxtCedulaProfesional.getText();
         String contraseña = TxtContraseña.getText();
         SharedData sharedData = SharedData.getInstance();
 
-        // Buscar el doctor en la lista por cédula
+
         Doctor doctor = sharedData.buscarDoctorPorCedula(cedula);
 
         if (doctor == null) {

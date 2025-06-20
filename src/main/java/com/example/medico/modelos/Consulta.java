@@ -1,4 +1,8 @@
 package com.example.medico.modelos;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -33,10 +37,10 @@ public class Consulta {
 
     private Set<Pacientes> pacientes = new HashSet<>();
 
-    // Constructor vacío
+
     public Consulta() {}
 
-    // Constructor completo
+
     public Consulta(String paciente, LocalDate fecha, LocalTime hora,
                     String especialista, String motivo, String diagnostico,
                     String fechaNacimiento, String pulsaciones, String temperatura,
@@ -60,7 +64,7 @@ public class Consulta {
         this.observaciones = observaciones;
     }
 
-    // Getters y Setters
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() { return id; }

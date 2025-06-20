@@ -71,7 +71,7 @@ public class terceraVentanaController {
         );
 
         bloquearCamposPaciente();
-  //  historial.setAll(paciente.getConsultas());
+  historial.setAll(paciente.getConsultas());
     }
 
     private void configurarTabla() {
