@@ -1,5 +1,6 @@
 package com.example.medico;
 
+import com.example.medico.services.DoctorServices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,6 +31,12 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        DoctorServices doctorServices = new DoctorServices();
+        Doctor doctor1 = new Doctor("Simi", "123456", "General", "1122");
+        doctorServices.addDoctor(doctor1);
+        System.out.println();
+
+
+        //launch();
     }
 }

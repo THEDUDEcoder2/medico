@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table( name = "Doctores" )
 public class Doctor {
+    private int idDoctor;
     private String nombre;
     private String cedula;
     private String especialidad;
@@ -22,6 +23,9 @@ public class Doctor {
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
+    public int getIdDoctor() {
+        return idDoctor;
+    }
     public String getNombre() { return nombre; }
     public String getCedula() { return cedula; }
     public String getEspecialidad() { return especialidad; }
@@ -32,4 +36,7 @@ public class Doctor {
     public void setCedula(String cedula) { this.cedula = cedula; }
     public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }
     public void setContraseña(String contraseña) { this.contraseña = contraseña; }
+    public void setIdDoctor(int idDoctor) {
+        this.idDoctor = idDoctor;
+    }
 }
