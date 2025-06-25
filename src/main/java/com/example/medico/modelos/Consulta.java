@@ -1,10 +1,12 @@
 package com.example.medico.modelos;
+import com.example.medico.services.ConsultaServices;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -17,7 +19,7 @@ public class Consulta {
 
     private Long id;
 
-    private String paciente;
+
     private LocalDate fecha;
     private LocalTime hora;
     private String especialista;
@@ -33,20 +35,17 @@ public class Consulta {
     private String receta;
     private String sintomas;
     private String observaciones;
-
-
-    private Set<Pacientes> pacientes = new HashSet<>();
-
+    private Doctor doctor;
 
     public Consulta() {}
 
 
-    public Consulta(String paciente, LocalDate fecha, LocalTime hora,
+    public Consulta( LocalDate fecha, LocalTime hora,
                     String especialista, String motivo, String diagnostico,
                     String fechaNacimiento, String pulsaciones, String temperatura,
                     String alergias, String peso, String altura, String presionArterial,
                     String receta, String sintomas, String observaciones) {
-        this.paciente = paciente;
+
         this.fecha = fecha;
         this.hora = hora;
         this.especialista = especialista;
@@ -69,9 +68,6 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public String getPaciente() { return paciente; }
-    public void setPaciente(String paciente) { this.paciente = paciente; }
 
     public LocalDate getFecha() { return fecha; }
     public void setFecha(LocalDate fecha) { this.fecha = fecha; }
@@ -117,13 +113,31 @@ public class Consulta {
 
     public String getObservaciones() { return observaciones; }
     public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
-    @ManyToMany(mappedBy = "consultas")
-    public Set<Pacientes> getPacientes() { return pacientes; }
-    public void setPacientes(Set<Pacientes> pacientes) { this.pacientes = pacientes; }
 
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+    @OneToOne
+    @JoinColumn(name = "doctor_id")
+    public Doctor getDoctor() { return doctor ;}
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+        if (doctor != null && doctor.getConsulta() != this) {
+            doctor.setConsulta(this);
+        }
+        }
     @Override
     public String toString() {
         return String.format("Consulta de %s - %s %s - Motivo: %s",
-                paciente, fecha, hora, motivo);
+                paciente != null ? paciente.getNombre() : "N/A",
+                fecha, hora, motivo);
     }
 }

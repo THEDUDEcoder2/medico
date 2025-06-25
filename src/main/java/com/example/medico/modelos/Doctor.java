@@ -1,17 +1,16 @@
 package com.example.medico.modelos;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table( name = "Doctores" )
+
 public class Doctor {
     private int idDoctor;
     private String nombre;
     private String cedula;
     private String especialidad;
     private String contraseña;
+    private Consulta consulta;
 
     public Doctor(String nombre, String cedula, String especialidad, String contraseña) {
         this.nombre = nombre;
@@ -31,7 +30,10 @@ public class Doctor {
     public String getEspecialidad() { return especialidad; }
     public String getContraseña() { return contraseña; }
 
-
+    @OneToOne(mappedBy = "doctor", cascade = CascadeType.ALL)
+    public Consulta getConsulta() {
+        return consulta;
+    }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setCedula(String cedula) { this.cedula = cedula; }
     public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }
@@ -39,4 +41,5 @@ public class Doctor {
     public void setIdDoctor(int idDoctor) {
         this.idDoctor = idDoctor;
     }
+    public void setConsulta(Consulta consulta) {this.consulta = consulta;}
 }

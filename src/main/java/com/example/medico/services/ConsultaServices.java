@@ -2,7 +2,7 @@ package com.example.medico.services;
 
 import com.example.medico.Utils.HibernateUtils;
 import com.example.medico.modelos.Consulta;
-import com.example.medico.modelos.Pacientes;
+import com.example.medico.modelos.Paciente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -45,7 +45,7 @@ public class  ConsultaServices {
         }
     }
 
-    public void updateConsulta(ConsultaServices consulta) {
+    public void updateConsulta(Consulta consulta) {  // Cambiado el parámetro
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -70,23 +70,22 @@ public class  ConsultaServices {
         }
     }
 
-    public void agregarPacienteAConsulta(Long consultaId, Long pacienteId) {
+    public void asignarPacienteAConsulta(Long consultaId, Long pacienteId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
             Consulta consulta = entityManager.find(Consulta.class, consultaId);
-            Pacientes paciente = entityManager.find(Pacientes.class, pacienteId);
+            Paciente paciente = entityManager.find(Paciente.class, pacienteId);
 
             if (consulta != null && paciente != null) {
-                consulta.getPacientes().add(paciente);
-                paciente.getConsultas().add(consulta);
+                consulta.setPaciente(paciente);
             }
-
             entityManager.getTransaction().commit();
         } finally {
             entityManager.close();
         }
+        }
     }
-}
+
 
 

@@ -1,7 +1,7 @@
 package com.example.medico;
 
 import com.example.medico.modelos.Doctor;
-import com.example.medico.modelos.Pacientes;
+import com.example.medico.modelos.Paciente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.io.*;
@@ -14,7 +14,7 @@ public class SharedData implements Serializable {
     private static SharedData instance;
     private Doctor doctorActual;
     private final ObservableList<Doctor> doctores = FXCollections.observableArrayList();
-    private final ObservableList<Pacientes> pacientes = FXCollections.observableArrayList();
+    private final ObservableList<Paciente> pacientes = FXCollections.observableArrayList();
     private static final String ARCHIVO_DATOS = "datos_medico.ser";
 
 
@@ -47,18 +47,18 @@ public class SharedData implements Serializable {
     }
 
 
-    public void agregarPaciente(Pacientes paciente) {
+    public void agregarPaciente(Paciente paciente) {
         if (paciente != null && !existePaciente(paciente.getNumeroSeguro())) {
             pacientes.add(paciente);
             guardarDatos();
         }
     }
 
-    public ObservableList<Pacientes> getTodosLosPacientes() {
+    public ObservableList<Paciente> getTodosLosPacientes() {
         return FXCollections.unmodifiableObservableList(pacientes);
     }
 
-    public ObservableList<Pacientes> buscarPacientes(String criterio) {
+    public ObservableList<Paciente> buscarPacientes(String criterio) {
         String busqueda = criterio.toLowerCase();
         return pacientes.stream()
                 .filter(p -> p.getNombre().toLowerCase().contains(busqueda) ||
@@ -87,7 +87,7 @@ public class SharedData implements Serializable {
                     new FileInputStream(file))) {
 
                 List<Doctor> doctoresCargados = (List<Doctor>) ois.readObject();
-                List<Pacientes> pacientesCargados = (List<Pacientes>) ois.readObject();
+                List<Paciente> pacientesCargados = (List<Paciente>) ois.readObject();
 
                 doctores.setAll(doctoresCargados);
                 pacientes.setAll(pacientesCargados);

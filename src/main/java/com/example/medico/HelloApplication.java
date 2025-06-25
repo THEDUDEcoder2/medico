@@ -1,11 +1,18 @@
 package com.example.medico;
 
+import com.example.medico.modelos.Consulta;
+import com.example.medico.modelos.Paciente;
+import com.example.medico.services.ConsultaServices;
 import com.example.medico.services.DoctorServices;
+import com.example.medico.services.Pacientesservices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import com.example.medico.modelos.Doctor;
 
 public class HelloApplication extends Application {
@@ -35,6 +42,16 @@ public class HelloApplication extends Application {
         Doctor doctor1 = new Doctor("Simi", "123456", "General", "1122");
         doctorServices.addDoctor(doctor1);
         System.out.println();
+        Pacientesservices pacientesservices = new Pacientesservices();
+        Paciente paciente1 = new Paciente("Eduardo", "11/06/2004", "zacatal",
+                "234023", "62343252", "A+");
+        pacientesservices.addpaciente(paciente1);
+
+        ConsultaServices consultaServices = new ConsultaServices();
+        Consulta consulta1 = new Consulta(LocalDate.now(), LocalTime.now(), "Simi-general","dolor de cabeza","presion alta",
+                "11/06/2004", "85", "36", "ninguna", "90kg", "1.72", "130/90", "paracetamol", "dolor de cabeza"
+        , "presenta presion alta");
+        consultaServices.addConsulta(consulta1);
 
 
         //launch();

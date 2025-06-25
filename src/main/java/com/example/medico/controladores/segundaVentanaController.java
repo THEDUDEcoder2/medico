@@ -1,6 +1,6 @@
 package com.example.medico.controladores;
 
-import com.example.medico.modelos.Pacientes;
+import com.example.medico.modelos.Paciente;
 import com.example.medico.SharedData;
 
 import com.example.medico.services.Pacientesservices;
@@ -27,16 +27,16 @@ public class segundaVentanaController {
     @FXML private TextField txtEspecialidad;
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<String> comboTipoSangre;
-    @FXML private TableView<Pacientes> tablaPacientes;
-    @FXML private TableColumn<Pacientes, String> colNombre;
-    @FXML private TableColumn<Pacientes, String> colDomicilio;
-    @FXML private TableColumn<Pacientes, String> colSeguro;
-    @FXML private TableColumn<Pacientes, String> colTelefono;
-    @FXML private TableColumn<Pacientes, String> colSangre;
+    @FXML private TableView<Paciente> tablaPacientes;
+    @FXML private TableColumn<Paciente, String> colNombre;
+    @FXML private TableColumn<Paciente, String> colDomicilio;
+    @FXML private TableColumn<Paciente, String> colSeguro;
+    @FXML private TableColumn<Paciente, String> colTelefono;
+    @FXML private TableColumn<Paciente, String> colSangre;
     @FXML private Button btnRegresarprimeraventana;
     @FXML private Button BtnLimpiar;
     private final SharedData sharedData = SharedData.getInstance();
-    private Pacientes pacienteSeleccionado;
+    private Paciente pacienteSeleccionado;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML
@@ -73,7 +73,7 @@ comboTipoSangre.setDisable(true);
     }
 
     private void configurarBusqueda() {
-        FilteredList<Pacientes> filtro = new FilteredList<>(sharedData.getTodosLosPacientes(), p -> true);
+        FilteredList<Paciente> filtro = new FilteredList<>(sharedData.getTodosLosPacientes(), p -> true);
         txtBuscar.textProperty().addListener((obs, oldVal, newVal) -> {
             filtro.setPredicate(paciente -> {
                 if (newVal == null || newVal.isEmpty()) return true;
@@ -83,7 +83,7 @@ comboTipoSangre.setDisable(true);
             });
         });
 
-        SortedList<Pacientes> datosOrdenados = new SortedList<>(filtro);
+        SortedList<Paciente> datosOrdenados = new SortedList<>(filtro);
         datosOrdenados.comparatorProperty().bind(tablaPacientes.comparatorProperty());
         tablaPacientes.setItems(datosOrdenados);
     }
@@ -93,7 +93,7 @@ comboTipoSangre.setDisable(true);
         try {
             validarCampos();
 
-            Pacientes paciente = new Pacientes(
+            Paciente paciente = new Paciente(
                     txtNombre.getText(),
                     txtFechaNacimiento.getValue().format(dateFormatter),
                     txtDomicilio.getText(),
@@ -200,7 +200,7 @@ comboTipoSangre.setDisable(false);
         }
     }
 
-    private void cargarDatosFormulario(Pacientes paciente) {
+    private void cargarDatosFormulario(Paciente paciente) {
         txtNombre.setText(paciente.getNombre());
         txtFechaNacimiento.setValue(LocalDate.parse(paciente.getFechaNacimiento(), dateFormatter));
         txtDomicilio.setText(paciente.getDomicilio());
@@ -209,7 +209,7 @@ comboTipoSangre.setDisable(false);
         comboTipoSangre.setValue(paciente.getTipoSangre());
     }
 
-    private void actualizarPaciente(Pacientes paciente) {
+    private void actualizarPaciente(Paciente paciente) {
         paciente.setNombre(txtNombre.getText());
         paciente.setFechaNacimiento(txtFechaNacimiento.getValue().format(dateFormatter));
         paciente.setDomicilio(txtDomicilio.getText());

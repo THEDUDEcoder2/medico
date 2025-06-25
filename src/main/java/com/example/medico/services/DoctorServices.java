@@ -4,54 +4,68 @@ import com.example.medico.Utils.HibernateUtils;
 import com.example.medico.modelos.Doctor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
 public class DoctorServices {
+    private EntityManagerFactory entityManagerFactory;
     public DoctorServices() {
-
+        entityManagerFactory = HibernateUtils.getEntityManagerFactory();
     }
 
-    public void addDoctor(Doctor doctor ) {
-        EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
+    public void addDoctor(Doctor doctor) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(doctor);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(doctor);
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
     }
 
-    public List<DoctorServices> getAllDoctor() {
-        EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
+    public List<Doctor> getAllDoctors() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<DoctorServices> result = entityManager.createQuery( "from doctor", DoctorServices.class ).getResultList();
-        entityManager.close();
-        return result;
+        try {
+            TypedQuery<Doctor> query = entityManager.createQuery("FROM Doctor", Doctor.class);
+            return query.getResultList();
+        } finally {
+            entityManager.close();
+        }
     }
 
-    public DoctorServices getDoctorByID(int id) {
-        EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
+    public Doctor getDoctorByID(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        DoctorServices doctor = entityManager.find(DoctorServices.class, id);
-        return doctor;
+        try {
+            return entityManager.find(Doctor.class, id);
+        } finally {
+            entityManager.close();
+        }
     }
 
-    public void updateDoctor(DoctorServices doctor) {
-        EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
+    public void updateDoctor(Doctor doctor) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.merge(doctor);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(doctor);
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
     }
 
-    public void removeDoctor(DoctorServices doctor) {
-        EntityManagerFactory entityManagerFactory = HibernateUtils.getEntityManagerFactory();
+    public void removeDoctor(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.merge(doctor));
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        try {
+            entityManager.getTransaction().begin();
+            Doctor doctor = entityManager.find(Doctor.class, id);
+            if (doctor != null) {
+                entityManager.remove(doctor);
+            }
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
     }
 }
-
-
