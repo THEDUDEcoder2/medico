@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 import com.example.medico.modelos.Doctor;
 
@@ -66,13 +67,26 @@ public class HelloApplication extends Application {
             consulta1.setPaciente(paciente1);
 
             consultaServices.addConsulta(consulta1);
+        Consulta consulta2 = new Consulta(
+                LocalDate.now(), LocalTime.now(), "Simi-general",
+                "dolor de cabeza", "presion alta", "11/06/2004",
+                "85", "36", "ninguna", "90kg", "1.72",
+                "130/90", "paracetamol", "dolor de cabeza",
+                "presenta presion alta"
+        );
 
-            doctor1.setConsulta(consulta1);
-            doctorServices.updateDoctor(doctor1);
 
-            System.out.println("Datos insertados correctamente");
+        consulta2.setDoctor(doctor1);
+        consulta2.setPaciente(paciente1);
 
-            // launch();
+        consultaServices.addConsulta(consulta2);
+        Paciente p = pacientesservices.getpacienteById(1L);
+        Set<Consulta> consultas= p.getConsultas();
+
+         //   doctor1.setConsulta(consulta1);
+         //  doctorServices.updateDoctor(doctor1);
+
+        //launch();
 
             HibernateUtils.closeEntityManagerFactory();
         }
