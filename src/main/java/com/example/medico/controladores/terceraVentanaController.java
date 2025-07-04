@@ -116,15 +116,20 @@ public class terceraVentanaController {
                     txtObservaciones.getText()
             );
 
+
+            consulta.setDoctor(sharedData.getDoctorActual());
+            consulta.setPaciente(paciente);
+
             if (consultaSeleccionada != null) {
                 actualizarConsulta(consulta);
             } else {
-//                paciente.agregarConsulta(consulta);
+                paciente.getConsultas().add(consulta);
                 historial.add(consulta);
-                ConsultaServices ConsultaServices = new ConsultaServices();
-                ConsultaServices.addConsulta(consulta);
 
+                ConsultaServices consultaServices = new ConsultaServices();
+                consultaServices.addConsulta(consulta);
             }
+
 
             mostrarAlerta("Exito", "Consulta guardada correctamente", Alert.AlertType.INFORMATION);
             nuevaConsulta();
@@ -185,9 +190,12 @@ public class terceraVentanaController {
         consultaSeleccionada.setSintomas(nuevaConsulta.getSintomas());
         consultaSeleccionada.setObservaciones(nuevaConsulta.getObservaciones());
         consultaSeleccionada.setReceta(nuevaConsulta.getReceta());
+
         tablaConsultas.refresh();
-        //ConsultaServices ConsultaServices = new ConsultaServices();
-        //ConsultaServices.updateConsulta(consulta);
+
+
+        ConsultaServices consultaServices = new ConsultaServices();
+        consultaServices.updateConsulta(consultaSeleccionada);
     }
 
     private void nuevaConsulta() {
