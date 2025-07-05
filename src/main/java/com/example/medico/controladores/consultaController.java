@@ -1,7 +1,8 @@
 package com.example.medico.controladores;
 
 import com.example.medico.modelos.Doctor;
-import com.example.medico.SharedData;
+
+import com.example.medico.services.DoctorServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,15 +20,12 @@ public class consultaController {
     @FXML private TextField TxtCedulaProfesional;
     @FXML private TextField TxtContraseña;
 
-
+    private DoctorServices doctorServices = new DoctorServices();
     @FXML
     void IniciarSesion(ActionEvent event) throws IOException {
         String cedula = TxtCedulaProfesional.getText();
         String contraseña = TxtContraseña.getText();
-        SharedData sharedData = SharedData.getInstance();
-
-
-        Doctor doctor = sharedData.buscarDoctorPorCedula(cedula);
+        Doctor doctor = doctorServices.getDoctorByCedula(cedula);
 
         if (doctor == null) {
             mostrarAlerta("Error", "Cédula profesional no encontrada");
@@ -35,7 +33,6 @@ public class consultaController {
         }
 
         if (doctor.getContraseña().equals(contraseña)) {
-            sharedData.setDoctorActual(doctor); // Establecer como doctor actual
             cargarVentana(
                     "/com/example/medico/views/segunda ventana.fxml",
                     "Gestión de Pacientes"
@@ -44,7 +41,6 @@ public class consultaController {
             mostrarAlerta("Error", "Contraseña incorrecta");
         }
     }
-
     @FXML
     private void crearPerfil(ActionEvent event) throws IOException {
         cargarVentana(

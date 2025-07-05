@@ -34,7 +34,18 @@ public class DoctorServices {
             entityManager.close();
         }
     }
-
+    public Doctor getDoctorByCedula(String cedula) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            TypedQuery<Doctor> query = entityManager.createQuery(
+                    "SELECT d FROM Doctor d WHERE d.cedulaProfesional = :cedula", Doctor.class
+            );
+            query.setParameter("cedula", cedula);
+            return query.getResultList().stream().findFirst().orElse(null);
+        } finally {
+            entityManager.close();
+        }
+    }
     public Doctor getDoctorByID(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
