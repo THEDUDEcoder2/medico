@@ -39,7 +39,12 @@ public class Pacientesservices {
     public Paciente getpacienteById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            return entityManager.find(Paciente.class, id);
+            // aqui el cambio para que ahora si carguen las consultas junto al paciente
+            TypedQuery<Paciente> query = entityManager.createQuery(
+                    "SELECT p FROM Paciente p LEFT JOIN FETCH p.consultas WHERE p.id = :id",
+                    Paciente.class);
+            query.setParameter("id", id);
+            return query.getSingleResult();
         } finally {
             entityManager.close();
         }
@@ -71,18 +76,17 @@ public class Pacientesservices {
     }
 
     public void crearConsultaParaPaciente(Long pacienteId, Consulta consulta) {
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        try {
-//            entityManager.getTransaction().begin();
-//            Pacientes paciente = entityManager.find(Pacientes.class, pacienteId);
-//            if (paciente != null) {
-//                paciente.agregarConsulta(consulta);
-//                entityManager.persist(consulta);
-//            }
-//            entityManager.getTransaction().commit();
-//        } finally {
-//            entityManager.close();
-//        }
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            Paciente paciente = entityManager.find(Paciente.class, pacienteId);
+            if (paciente != null) {
+                consulta.setPaciente(paciente);
+                entityManager.persist(consulta);
+            }
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
     }
 }
-

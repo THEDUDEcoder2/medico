@@ -38,7 +38,7 @@ public class DoctorServices {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             TypedQuery<Doctor> query = entityManager.createQuery(
-                    "SELECT d FROM Doctor d WHERE d.cedulaProfesional = :cedula", Doctor.class
+                    "SELECT d FROM Doctor d WHERE d.cedula = :cedula", Doctor.class
             );
             query.setParameter("cedula", cedula);
             return query.getResultList().stream().findFirst().orElse(null);
