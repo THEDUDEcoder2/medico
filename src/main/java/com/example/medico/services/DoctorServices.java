@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DoctorServices {
     private EntityManagerFactory entityManagerFactory;
+    private static Doctor currentDoctor;
     public DoctorServices() {
         entityManagerFactory = HibernateUtils.getEntityManagerFactory();
     }
@@ -45,6 +46,14 @@ public class DoctorServices {
         } finally {
             entityManager.close();
         }
+    }
+    public Doctor getDoctorActual() {
+
+        return currentDoctor;
+    }
+
+    public void setDoctorActual(Doctor doctor) {
+        currentDoctor = doctor;
     }
     public Doctor getDoctorByID(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

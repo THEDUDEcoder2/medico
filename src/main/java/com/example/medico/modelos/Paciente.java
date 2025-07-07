@@ -1,15 +1,15 @@
 package com.example.medico.modelos;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pacientes")
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String nombre;
     private String fechaNacimiento;
@@ -18,8 +18,8 @@ public class Paciente {
     private String telefono;
     private String tipoSangre;
 
-    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Consulta> consultas = new HashSet<>();
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    private List<Consulta> consultas = new ArrayList<>();
 
     public Paciente() {}
 
@@ -33,11 +33,12 @@ public class Paciente {
         this.tipoSangre = tipoSangre;
     }
 
-    public int getId() {
+    // Getters y Setters corregidos
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,12 +58,12 @@ public class Paciente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getDomicilio() {
+        return domicilio;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
     }
 
     public String getNumeroSeguro() {
@@ -73,12 +74,12 @@ public class Paciente {
         this.numeroSeguro = numeroSeguro;
     }
 
-    public String getDomicilio() {
-        return domicilio;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getTipoSangre() {
@@ -89,11 +90,11 @@ public class Paciente {
         this.tipoSangre = tipoSangre;
     }
 
-    public Set<Consulta> getConsultas() {
+    public List<Consulta> getConsultas() {
         return consultas;
     }
 
-    public void setConsultas(Set<Consulta> consultas) {
+    public void setConsultas(List<Consulta> consultas) {
         this.consultas = consultas;
     }
 }

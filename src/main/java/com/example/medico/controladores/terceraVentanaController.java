@@ -69,11 +69,12 @@ public class terceraVentanaController {
                 sharedData.getDoctorActual().getNombre() + " - " +
                         sharedData.getDoctorActual().getEspecialidad()
         );
+        if (paciente.getConsultas() != null) {
+            historial.setAll(paciente.getConsultas());
+        }
 
         bloquearCamposPaciente();
-  historial.setAll(paciente.getConsultas());
     }
-
     private void configurarTabla() {
         colFecha.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getFecha().format(fechaFormatter)));

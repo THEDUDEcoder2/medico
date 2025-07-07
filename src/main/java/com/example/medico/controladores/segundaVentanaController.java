@@ -1,9 +1,11 @@
 package com.example.medico.controladores;
 
+import com.example.medico.modelos.Doctor;
+import com.example.medico.services.DoctorServices;
 import com.example.medico.modelos.Paciente;
-import com.example.medico.SharedData;
-
 import com.example.medico.services.Pacientesservices;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -35,14 +37,20 @@ public class segundaVentanaController {
     @FXML private TableColumn<Paciente, String> colSangre;
     @FXML private Button btnRegresarprimeraventana;
     @FXML private Button BtnLimpiar;
-    private final SharedData sharedData = SharedData.getInstance();
+    private Pacientesservices pacienteServices = new Pacientesservices();
+    private DoctorServices doctorServices = new DoctorServices();
+    private ObservableList<Paciente> listaPacientes = FXCollections.observableArrayList();
     private Paciente pacienteSeleccionado;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML
     public void initialize() {
         comboTipoSangre.getItems().addAll("O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-");
-        txtEspecialidad.setText(sharedData.getDoctorActual().getEspecialidad());
+        Doctor doctorActual = doctorServices.getDoctorActual();
+        if (doctorActual != null) {
+            txtEspecialidad.setText(doctorActual.getEspecialidad());
+        }
+        cargarPacientes();
         txtEspecialidad.setEditable(false);
 txtNombre.setDisable(true);
 txtFechaNacimiento.setDisable(true);
@@ -51,6 +59,7 @@ txtTelefono.setDisable(true);
 txtNumeroSeguro.setDisable(true);
 comboTipoSangre.setDisable(true);
         configurarTabla();
+
         configurarBusqueda();
 
         tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
@@ -69,11 +78,11 @@ comboTipoSangre.setDisable(true);
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colSangre.setCellValueFactory(new PropertyValueFactory<>("tipoSangre"));
 
-        tablaPacientes.setItems(sharedData.getTodosLosPacientes());
     }
 
+
     private void configurarBusqueda() {
-        FilteredList<Paciente> filtro = new FilteredList<>(sharedData.getTodosLosPacientes(), p -> true);
+        FilteredList<Paciente> filtro = new FilteredList<>(listaPacientes, p -> true);
         txtBuscar.textProperty().addListener((obs, oldVal, newVal) -> {
             filtro.setPredicate(paciente -> {
                 if (newVal == null || newVal.isEmpty()) return true;
@@ -86,6 +95,11 @@ comboTipoSangre.setDisable(true);
         SortedList<Paciente> datosOrdenados = new SortedList<>(filtro);
         datosOrdenados.comparatorProperty().bind(tablaPacientes.comparatorProperty());
         tablaPacientes.setItems(datosOrdenados);
+    }
+    private void cargarPacientes() {
+        listaPacientes.clear();
+        listaPacientes.addAll(pacienteServices.getAllpacientes());
+        tablaPacientes.setItems(listaPacientes);
     }
 
     @FXML
@@ -103,14 +117,16 @@ comboTipoSangre.setDisable(true);
             );
 
             if (pacienteSeleccionado != null) {
-                actualizarPaciente(pacienteSeleccionado);
-            } else {
-                sharedData.agregarPaciente(paciente);
-                Pacientesservices Pacientesservices = new Pacientesservices();
-                Pacientesservices.addpaciente(paciente);
-            }
 
+                paciente.setId(pacienteSeleccionado.getId());
+                pacienteServices.updatepaciente(paciente);
+            } else {
+
+                pacienteServices.addpaciente(paciente);
+            }
+            cargarPacientes();
             limpiarCampos();
+
             txtNombre.setDisable(true);
             txtFechaNacimiento.setDisable(true);
             txtDomicilio.setDisable(true);
@@ -124,6 +140,10 @@ comboTipoSangre.setDisable(true);
 
     @FXML
     private void editarPaciente(ActionEvent event) {
+        if (pacienteSeleccionado == null) {
+            mostrarAlerta("Error", "Seleccione un paciente para editar");
+            return;
+        }
 txtNombre.setDisable(false);
 txtTelefono.setDisable(false);
 txtFechaNacimiento.setDisable(false);
@@ -135,7 +155,7 @@ comboTipoSangre.setDisable(false);
     @FXML
     private void eliminarPaciente(ActionEvent event) {
         if (pacienteSeleccionado != null) {
-            sharedData.existePaciente(String.valueOf(pacienteSeleccionado));
+            pacienteServices.removepaciente((long) pacienteSeleccionado.getId());
 
             limpiarCampos();
         } else {
@@ -155,10 +175,11 @@ comboTipoSangre.setDisable(false);
             Parent root = loader.load();
 
             terceraVentanaController controller = loader.getController();
+            Doctor doctorActual = doctorServices.getDoctorActual();
             controller.setPaciente(
                     pacienteSeleccionado,
                     txtEspecialidad.getText(),
-                    sharedData.getDoctorActual().getNombre()
+                    doctorActual != null ? doctorActual.getNombre() : ""
 
             );
 

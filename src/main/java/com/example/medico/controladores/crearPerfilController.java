@@ -52,7 +52,10 @@ public class crearPerfilController {
             mostrarAlerta("Error", "La cedula debe tener al menos 6 caracteres");
             return;
         }
-
+        if (doctorServices.getDoctorByCedula(cedula) != null) {
+            mostrarAlerta("Error", "Ya existe un doctor con esta cédula");
+            return;
+        }
         Doctor nuevoDoctor = new Doctor(nombre, cedula, especialidad, contraseña);
         doctorServices.addDoctor(nuevoDoctor);
 
@@ -60,8 +63,7 @@ public class crearPerfilController {
 
         cerrarVentana();
         abrirVentanaPrincipal();
-        DoctorServices doctorServices = new DoctorServices();
-        doctorServices.addDoctor(nuevoDoctor);
+
     }
 
     @FXML

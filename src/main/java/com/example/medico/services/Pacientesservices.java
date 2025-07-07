@@ -29,7 +29,7 @@ public class Pacientesservices {
     public List<Paciente> getAllpacientes() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            TypedQuery<Paciente> query = entityManager.createQuery("from pacientes", Paciente.class);
+            TypedQuery<Paciente> query = entityManager.createQuery("FROM Paciente", Paciente.class); // Cambiado a "FROM Paciente"
             return query.getResultList();
         } finally {
             entityManager.close();

@@ -1,6 +1,5 @@
 package com.example.medico.controladores;
 
-import com.example.medico.SharedData;
 import com.example.medico.modelos.Doctor;
 
 import com.example.medico.services.DoctorServices;
@@ -34,7 +33,6 @@ public class consultaController {
         }
 
         if (doctor.getContraseña().equals(contraseña)) {
-            SharedData.getInstance().setDoctorActual(doctor);
             cargarVentana(
                     "/com/example/medico/views/segunda ventana.fxml",
                     "Gestión de Pacientes"
