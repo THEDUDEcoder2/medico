@@ -1,7 +1,6 @@
 package com.example.medico.controladores;
 
 import com.example.medico.modelos.Doctor;
-
 import com.example.medico.services.DoctorServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +20,8 @@ public class consultaController {
     @FXML private TextField TxtContraseña;
 
     private DoctorServices doctorServices = new DoctorServices();
+    public static Doctor doctorActual;
+
     @FXML
     void IniciarSesion(ActionEvent event) throws IOException {
         String cedula = TxtCedulaProfesional.getText();
@@ -33,20 +34,16 @@ public class consultaController {
         }
 
         if (doctor.getContraseña().equals(contraseña)) {
-            cargarVentana(
-                    "/com/example/medico/views/segunda ventana.fxml",
-                    "Gestión de Pacientes"
-            );
+            doctorActual = doctor;
+            cargarVentana("/com/example/medico/views/segunda ventana.fxml", "Gestión de Pacientes");
         } else {
             mostrarAlerta("Error", "Contraseña incorrecta");
         }
     }
+
     @FXML
     private void crearPerfil(ActionEvent event) throws IOException {
-        cargarVentana(
-                "/com/example/medico/views/crear perfil.fxml",
-                "Crear Perfil Medico"
-        );
+        cargarVentana("/com/example/medico/views/crear perfil.fxml", "Crear Perfil Médico");
     }
 
     private void cargarVentana(String fxml, String titulo) throws IOException {

@@ -1,8 +1,8 @@
 package com.example.medico.controladores;
 
 import com.example.medico.modelos.Consulta;
+import com.example.medico.modelos.Doctor;
 import com.example.medico.modelos.Paciente;
-import com.example.medico.SharedData;
 import com.example.medico.services.ConsultaServices;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 public class terceraVentanaController {
     @FXML private TextField txtPaciente;
@@ -45,14 +46,19 @@ public class terceraVentanaController {
     @FXML private Button btnEditar;
     @FXML private Button btnNueva;
     @FXML private Button btnRegresar;
+    private Doctor doctorActual;
 
-    private final SharedData sharedData = SharedData.getInstance();
+    public void setDoctor(Doctor doctor) {
+        this.doctorActual = doctor;
+    }
+
+
     private ObservableList<Consulta> historial = FXCollections.observableArrayList();
     private Consulta consultaSeleccionada;
     private Paciente paciente;
     private final DateTimeFormatter fechaFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    private ConsultaServices consulta;
+    private ConsultaServices consultaServices = new ConsultaServices();
 
     @FXML
     public void initialize() {
@@ -61,20 +67,19 @@ public class terceraVentanaController {
         txtHora.setText(LocalTime.now().format(horaFormatter));
     }
 
-    public void setPaciente(Paciente paciente, String text, String nombre) {
+    public void setPaciente(Paciente paciente, String especialidad, String nombreDoctor, String especialidadDoctor) {
         this.paciente = paciente;
         txtPaciente.setText(paciente.getNombre());
         txtFechaNacimiento.setText(paciente.getFechaNacimiento());
-        txtEspecialista.setText(
-                sharedData.getDoctorActual().getNombre() + " - " +
-                        sharedData.getDoctorActual().getEspecialidad()
-        );
-        if (paciente.getConsultas() != null) {
-            historial.setAll(paciente.getConsultas());
-        }
+        txtEspecialista.setText(nombreDoctor + " - " + especialidadDoctor);
+
+        // Cargar consultas desde la base de datos
+        List<Consulta> consultas = consultaServices.getAllConsultasPorPaciente(paciente.getId());
+        historial.setAll(consultas);
 
         bloquearCamposPaciente();
     }
+
     private void configurarTabla() {
         colFecha.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getFecha().format(fechaFormatter)));
@@ -83,7 +88,6 @@ public class terceraVentanaController {
         colEspecialista.setCellValueFactory(new PropertyValueFactory<>("especialista"));
         colMotivo.setCellValueFactory(new PropertyValueFactory<>("motivo"));
         colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
-
 
         tablaConsultas.setItems(historial);
         tablaConsultas.getSelectionModel().selectedItemProperty().addListener(
@@ -99,7 +103,6 @@ public class terceraVentanaController {
             validarCampos();
 
             Consulta consulta = new Consulta(
-
                     LocalDate.parse(txtFecha.getText(), fechaFormatter),
                     LocalTime.parse(txtHora.getText(), horaFormatter),
                     txtEspecialista.getText(),
@@ -117,20 +120,15 @@ public class terceraVentanaController {
                     txtObservaciones.getText()
             );
 
-
-            consulta.setDoctor(sharedData.getDoctorActual());
             consulta.setPaciente(paciente);
+            consulta.setDoctor(doctorActual);
 
             if (consultaSeleccionada != null) {
                 actualizarConsulta(consulta);
             } else {
-                paciente.getConsultas().add(consulta);
-                historial.add(consulta);
-
-                ConsultaServices consultaServices = new ConsultaServices();
                 consultaServices.addConsulta(consulta);
+                historial.add(consulta);
             }
-
 
             mostrarAlerta("Exito", "Consulta guardada correctamente", Alert.AlertType.INFORMATION);
             nuevaConsulta();
@@ -192,11 +190,8 @@ public class terceraVentanaController {
         consultaSeleccionada.setObservaciones(nuevaConsulta.getObservaciones());
         consultaSeleccionada.setReceta(nuevaConsulta.getReceta());
 
-        tablaConsultas.refresh();
-
-
-        ConsultaServices consultaServices = new ConsultaServices();
         consultaServices.updateConsulta(consultaSeleccionada);
+        tablaConsultas.refresh();
     }
 
     private void nuevaConsulta() {

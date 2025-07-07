@@ -2,6 +2,7 @@ package com.example.medico.modelos;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import java.util.List;
 
 @Entity
 @Table(name = "Doctores")
@@ -16,8 +17,8 @@ public class Doctor {
     private String especialidad;
     private String contraseña;
 
-    @OneToOne(mappedBy = "doctor", cascade = CascadeType.ALL)
-    private Consulta consulta;
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Consulta> consultas;
 
     public Doctor() {}
 
@@ -27,7 +28,6 @@ public class Doctor {
         this.especialidad = especialidad;
         this.contraseña = contraseña;
     }
-
 
     public int getIdDoctor() { return idDoctor; }
     public void setIdDoctor(int idDoctor) { this.idDoctor = idDoctor; }
@@ -39,6 +39,6 @@ public class Doctor {
     public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }
     public String getContraseña() { return contraseña; }
     public void setContraseña(String contraseña) { this.contraseña = contraseña; }
-    public Consulta getConsulta() { return consulta; }
-    public void setConsulta(Consulta consulta) { this.consulta = consulta; }
+    public List<Consulta> getConsultas() { return consultas; }
+    public void setConsultas(List<Consulta> consultas) { this.consultas = consultas; }
 }

@@ -52,14 +52,13 @@ public class segundaVentanaController {
         }
         cargarPacientes();
         txtEspecialidad.setEditable(false);
-txtNombre.setDisable(true);
-txtFechaNacimiento.setDisable(true);
-txtDomicilio.setDisable(true);
-txtTelefono.setDisable(true);
-txtNumeroSeguro.setDisable(true);
-comboTipoSangre.setDisable(true);
+        txtNombre.setDisable(true);
+        txtFechaNacimiento.setDisable(true);
+        txtDomicilio.setDisable(true);
+        txtTelefono.setDisable(true);
+        txtNumeroSeguro.setDisable(true);
+        comboTipoSangre.setDisable(true);
         configurarTabla();
-
         configurarBusqueda();
 
         tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
@@ -77,9 +76,7 @@ comboTipoSangre.setDisable(true);
         colSeguro.setCellValueFactory(new PropertyValueFactory<>("numeroSeguro"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colSangre.setCellValueFactory(new PropertyValueFactory<>("tipoSangre"));
-
     }
-
 
     private void configurarBusqueda() {
         FilteredList<Paciente> filtro = new FilteredList<>(listaPacientes, p -> true);
@@ -96,6 +93,7 @@ comboTipoSangre.setDisable(true);
         datosOrdenados.comparatorProperty().bind(tablaPacientes.comparatorProperty());
         tablaPacientes.setItems(datosOrdenados);
     }
+
     private void cargarPacientes() {
         listaPacientes.clear();
         listaPacientes.addAll(pacienteServices.getAllpacientes());
@@ -117,11 +115,9 @@ comboTipoSangre.setDisable(true);
             );
 
             if (pacienteSeleccionado != null) {
-
                 paciente.setId(pacienteSeleccionado.getId());
                 pacienteServices.updatepaciente(paciente);
             } else {
-
                 pacienteServices.addpaciente(paciente);
             }
             cargarPacientes();
@@ -140,23 +136,18 @@ comboTipoSangre.setDisable(true);
 
     @FXML
     private void editarPaciente(ActionEvent event) {
-        if (pacienteSeleccionado == null) {
-            mostrarAlerta("Error", "Seleccione un paciente para editar");
-            return;
-        }
-txtNombre.setDisable(false);
-txtTelefono.setDisable(false);
-txtFechaNacimiento.setDisable(false);
-txtDomicilio.setDisable(false);
-txtNumeroSeguro.setDisable(false);
-comboTipoSangre.setDisable(false);
+        txtNombre.setDisable(false);
+        txtTelefono.setDisable(false);
+        txtFechaNacimiento.setDisable(false);
+        txtDomicilio.setDisable(false);
+        txtNumeroSeguro.setDisable(false);
+        comboTipoSangre.setDisable(false);
     }
 
     @FXML
     private void eliminarPaciente(ActionEvent event) {
         if (pacienteSeleccionado != null) {
             pacienteServices.removepaciente((long) pacienteSeleccionado.getId());
-
             limpiarCampos();
         } else {
             mostrarAlerta("Error", "Seleccione un paciente para eliminar");
@@ -175,13 +166,13 @@ comboTipoSangre.setDisable(false);
             Parent root = loader.load();
 
             terceraVentanaController controller = loader.getController();
-            Doctor doctorActual = doctorServices.getDoctorActual();
             controller.setPaciente(
                     pacienteSeleccionado,
                     txtEspecialidad.getText(),
-                    doctorActual != null ? doctorActual.getNombre() : ""
-
+                    consultaController.doctorActual.getNombre(),
+                    consultaController.doctorActual.getEspecialidad()
             );
+            controller.setDoctor(consultaController.doctorActual); // ← esta línea es clave
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -191,10 +182,10 @@ comboTipoSangre.setDisable(false);
         }
     }
 
+
     @FXML
     private void regresarAprimeraventana(ActionEvent event) {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/medico/views/portada consultorio.fxml"));
             Parent root = loader.load();
             cerrarVentana();
@@ -205,6 +196,7 @@ comboTipoSangre.setDisable(false);
             mostrarAlerta("Error", "No se pudo abrir la ventana: " + e.getMessage());
         }
     }
+
     private void cerrarVentana() {
         Stage stage = (Stage) btnRegresarprimeraventana.getScene().getWindow();
         stage.close();
@@ -230,16 +222,6 @@ comboTipoSangre.setDisable(false);
         comboTipoSangre.setValue(paciente.getTipoSangre());
     }
 
-    private void actualizarPaciente(Paciente paciente) {
-        paciente.setNombre(txtNombre.getText());
-        paciente.setFechaNacimiento(txtFechaNacimiento.getValue().format(dateFormatter));
-        paciente.setDomicilio(txtDomicilio.getText());
-        paciente.setNumeroSeguro(txtNumeroSeguro.getText());
-        paciente.setTelefono(txtTelefono.getText());
-        paciente.setTipoSangre(comboTipoSangre.getValue());
-        tablaPacientes.refresh();
-    }
-
     private void limpiarCampos() {
         txtNombre.clear();
         txtFechaNacimiento.setValue(null);
@@ -258,15 +240,9 @@ comboTipoSangre.setDisable(false);
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+
     @FXML
     void Limpiar(ActionEvent event) {
-        txtNombre.clear();
-        txtFechaNacimiento.setValue(null);
-        txtDomicilio.clear();
-        txtNumeroSeguro.clear();
-        txtTelefono.clear();
-        comboTipoSangre.getSelectionModel().clearSelection();
-        pacienteSeleccionado = null;
-        tablaPacientes.getSelectionModel().clearSelection();
+        limpiarCampos();
     }
 }

@@ -26,10 +26,14 @@ public class  ConsultaServices {
         }
     }
 
-    public List<Consulta> getAllConsultas() {
+    public List<Consulta> getAllConsultasPorPaciente(Long pacienteId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            TypedQuery<Consulta> query = entityManager.createQuery("FROM Consulta", Consulta.class);
+            TypedQuery<Consulta> query = entityManager.createQuery(
+                    "SELECT c FROM Consulta c WHERE c.paciente.id = :pacienteId",
+                    Consulta.class
+            );
+            query.setParameter("pacienteId", pacienteId);
             return query.getResultList();
         } finally {
             entityManager.close();
@@ -45,7 +49,7 @@ public class  ConsultaServices {
         }
     }
 
-    public void updateConsulta(Consulta consulta) {  // Cambiado el parámetro
+    public void updateConsulta(Consulta consulta) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
